@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Manager : MonoBehaviour
+public class ProtoManager : MonoBehaviour
 {
     [SerializeField]
-    Tile tileObject;
+    ProtoTile tileObject;
 
-    public Tile[,] grid = new Tile[2, 3];
+    public ProtoTile[,] grid = new ProtoTile[2, 3];
 
     // Start is called before the first frame update
     void Start()
