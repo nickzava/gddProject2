@@ -105,8 +105,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 429c0b64483776e4ca51692c107e46ec, type: 3}
   - {fileID: 21300000, guid: fc929b55989ae704882276fc637d0376, type: 3}
   XImages:
-  - {fileID: 21300000, guid: 429c0b64483776e4ca51692c107e46ec, type: 3}
-  - {fileID: 21300000, guid: fc929b55989ae704882276fc637d0376, type: 3}
+  - {fileID: 21300000, guid: c0ac8267b0cce0d4c92fe9868c35a8c0, type: 3}
+  - {fileID: 21300000, guid: 9257083135667864e924b4fd13e00f40, type: 3}
+  gridX: 0
+  gridY: 0
   mType: 0
 --- !u!61 &8335707604535727919
 BoxCollider2D:

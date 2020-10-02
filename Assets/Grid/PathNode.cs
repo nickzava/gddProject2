@@ -105,24 +105,23 @@ public class PathNode
         //set new connections
         connected = newConncections;
 
-        //check number of connections to see if a new path should be created
-        int numConnections = 0;
+        //TODO check number of connections to see if a new path should be created
+
+        //Remake paths next to this one
         for(int i = 0; i < connected.Count; i++)
         {
-            if(connected[i].mPath != null && connected[i].mPath != mPath)
+            if(connected[i].mPath != null)
             {
-                mPath = connected[i].mPath;
-                numConnections++;
+                connected[i].mPath.Remake();
+                break;
             }
-        }
-        if(numConnections > 1)
-        {
-            throw new System.NotImplementedException("Multiple Paths aren't supported yet!");
         }
 
         //remake paths
         if(mPath != oldPath)
             oldPath?.Remake();
         mPath?.Remake();
+
+        NodeStateChanged?.Invoke(mPower);
     }
 }
