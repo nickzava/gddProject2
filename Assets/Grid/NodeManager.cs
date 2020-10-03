@@ -46,7 +46,9 @@ public class NodeManager : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 List<int> connections = new List<int>();
-                TileTypes type = (TileTypes)Random.Range(0, 4);
+                //weighted randomness, I and L are more common than X and T
+                int typeNum = (int)Mathf.Floor(Mathf.Pow(Random.value, 2) * 4);
+                TileTypes type = (TileTypes)typeNum;
                 switch (type)
                 {
                     case TileTypes.L:

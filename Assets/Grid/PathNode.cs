@@ -72,7 +72,6 @@ public class PathNode
                 directions[i] = directions[i] - 1 < 0 ? 3 : directions[i] - 1;
             }
         }
-        NodeStateChanged?.Invoke(mPower);
         return directions;
     }
 
@@ -105,14 +104,15 @@ public class PathNode
         //set new connections
         connected = newConncections;
 
-        //TODO check number of connections to see if a new path should be created
-
         //Remake paths next to this one
         for(int i = 0; i < connected.Count; i++)
         {
-            if(connected[i].mPath != null)
+            if(connected[i].mPath != null && connected[i].mPath != oldPath)
             {
                 connected[i].mPath.Remake();
+                //can break after the first remake,
+                //any paths that collide with a remade path
+                //will also be updated
                 break;
             }
         }
@@ -121,7 +121,5 @@ public class PathNode
         if(mPath != oldPath)
             oldPath?.Remake();
         mPath?.Remake();
-
-        NodeStateChanged?.Invoke(mPower);
     }
 }

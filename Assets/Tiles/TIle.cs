@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum TileTypes
 {
-    L,T,I,X
+    L,I,T,X
 }
 
 //visual representation of a PathNode
@@ -57,6 +57,7 @@ public class Tile : MonoBehaviour
 
     public void SetPower(int power)
     {
+        power = power >= LImages.Count ? LImages.Count - 1 : power;
         switch (mType)
         {
             case TileTypes.L:
