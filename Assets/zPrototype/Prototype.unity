@@ -163,6 +163,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileObject: {fileID: 427649638}
+  tileObject: {fileID: 1349604815718862792, guid: b0dba5817700b2740bb232b3dcb9bc05,
+    type: 3}
 --- !u!4 &538002745
 Transform:
   m_ObjectHideFlags: 0
@@ -175,7 +177,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &929741795
 GameObject:
@@ -276,7 +278,7 @@ PrefabInstance:
     - target: {fileID: 1023897529257787200, guid: b0dba5817700b2740bb232b3dcb9bc05,
         type: 3}
       propertyPath: m_Name
-      value: ProtoTile
+      value: Tile
       objectReference: {fileID: 0}
     - target: {fileID: 1349604815718862792, guid: b0dba5817700b2740bb232b3dcb9bc05,
         type: 3}
