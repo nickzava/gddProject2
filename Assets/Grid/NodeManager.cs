@@ -6,6 +6,7 @@ using UnityEngine;
 public class NodeManager : MonoBehaviour
 {
     public static NodeManager Instance;
+	public int seed;	//currently assigned manually in Unity
 
     int width = 10;
     int height = 10;
@@ -41,12 +42,13 @@ public class NodeManager : MonoBehaviour
 
     void GridInit()
     {
-        for (int x = 0; x < width; x++)
+		Random.InitState(seed);
+		for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
                 List<int> connections = new List<int>();
-                //weighted randomness, I and L are more common than X and T
+				//weighted randomness, I and L are more common than X and T
                 int typeNum = (int)Mathf.Floor(Mathf.Pow(Random.value, 2) * 4);
                 TileTypes type = (TileTypes)typeNum;
                 switch (type)
@@ -75,7 +77,7 @@ public class NodeManager : MonoBehaviour
                 }
 
                 pathNodes[x, y] = new PathNode(connections);
-                TileManager.Instance.AddTile(x, y, type);
+				TileManager.Instance.AddTile(x, y, type);
             }
         }
     }
