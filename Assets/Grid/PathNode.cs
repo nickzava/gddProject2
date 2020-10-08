@@ -6,10 +6,22 @@ public class PathNode
 {
     //tiles this node is connected to
     public List<PathNode> connected { get; private set; }
+    //the power level of the tile this is attached to (1 for base paths and 2+ for combined paths)
     public int mPower { get; private set; }
     //the path this node is part of, NULL if power is 0 / isn't connected to a power source
     public Path mPath { get; private set; }
+    //paths that feed into this path, if a path is disconected from it's dependantPaths it should be removed
+    public List<Path> dependantPaths;
 
+    //valuse to track if there was a meaningful change since the last finalized state
+    //these values are important because nodes are frequently removed and the immediatly readded to the same
+    //path so tracking their state can prevent extra triggering of events in that case
+    private bool changed = false;
+    private int finalPower;
+    private Path finalPath;
+
+    //called when there is a meaningful change to the node
+    //should only be called for final states of a path, not during updating
     public delegate void NodeStateChangedDelegate(int power);
     public event NodeStateChangedDelegate NodeStateChanged;
 
@@ -23,20 +35,53 @@ public class PathNode
     {
         this.directions = directions;
         this.connected = new List<PathNode>();
+        this.finalPower = 0;
+        this.finalPath = null;
+        changed = false;
     }
 
+    //removes the node from its path
     public void ClearPath()
     {
-        mPath = null;
-        mPower = 0;
-        NodeStateChanged?.Invoke(mPower);
+        SetPath(null, 0);
     }
 
+    //connects this node to a path
     public void SetPath(Path newPath, int pathPower)
     {
         mPath = newPath;
         mPower = pathPower;
-        NodeStateChanged?.Invoke(mPower);
+    }
+
+    //called after a path update, if there was a meaningful change to the node then NodeStateChanged is invoked
+    public void FinalizeStates()
+    {
+        if (dependantPaths != null)
+        {
+            List<Path> toRemove = null;
+            foreach (Path dependant in dependantPaths)
+            {
+                if (mPath == null || !connected.Exists((depNode) => { return depNode.mPath == dependant; }))
+                {
+                    toRemove = toRemove ?? new List<Path>();
+                    toRemove.Add(dependant);
+                }
+            }
+            if(toRemove != null)
+            {
+                foreach(Path remove in toRemove)
+                {
+                    NodeManager.Instance.RemovePath(remove);
+                }
+            }
+        }
+        if(changed || mPower != finalPower || mPath != finalPath)
+        {
+            finalPower = mPower;
+            finalPath = mPath;
+            changed = false;
+            NodeStateChanged?.Invoke(mPower);
+        }
     }
 
     //connects this node to another node, should only be called by rotating pieces that
@@ -49,7 +94,7 @@ public class PathNode
         }
     }
 
-    //removes connection to another path
+    //removes connection to another node, should be called by rotating nodes that are no longer connected to this one
     void RemoveConnection(PathNode toRemove) 
     {
         connected.Remove(toRemove);
@@ -75,14 +120,10 @@ public class PathNode
         return directions;
     }
 
+    //updates the node connections after the int representation of this node is rotated
     public void UpdateConnections(List<PathNode> newConncections)
     {
-        //if the node has a path, update the path first
-        //temporary value is created so the path refrence isn't
-        //lost while the node is updated
-        Path oldPath = mPath;
-        oldPath?.Clear();
-
+        changed = true;
         //remove connections to nodes not in newConnections
         foreach(PathNode node in connected)
         {
@@ -103,23 +144,5 @@ public class PathNode
 
         //set new connections
         connected = newConncections;
-
-        //Remake paths next to this one
-        for(int i = 0; i < connected.Count; i++)
-        {
-            if(connected[i].mPath != null && connected[i].mPath != oldPath)
-            {
-                connected[i].mPath.Remake();
-                //can break after the first remake,
-                //any paths that collide with a remade path
-                //will also be updated
-                break;
-            }
-        }
-
-        //remake paths
-        if(mPath != oldPath)
-            oldPath?.Remake();
-        mPath?.Remake();
     }
 }

@@ -6,28 +6,60 @@ using UnityEngine;
 public class Path
 {
     //holds the first node in the path
-    PathNode pathBeginning;
+    private PathNode start;
     //holds all the nodes in this path
-    LinkedList<PathNode> mNodes;
+    private LinkedList<PathNode> mNodes;
+    public List<PathNode> dependancies;
+    
+    private int id;
 
-    public Path(PathNode start) 
+    public Path(int id, PathNode start, List<PathNode> dependancies = null) 
     {
-        this.pathBeginning = start;
+        this.id = id;
+        this.dependancies = dependancies;
         mNodes = new LinkedList<PathNode>();
+
+        this.start = start;
+        AddNodeToPath(start);
+        start.FinalizeStates();
+
         Remake();
     }
 
     void AddNodeToPath(PathNode toAdd)
     {
-        toAdd.SetPath(this, 1);
+        toAdd.SetPath(this, id);
         mNodes.AddLast(toAdd);
     }
 
     //called if the path is changed
     //if the node is now connected to two different sorces they should NOT call this method but 
     //start a new path with an increased power levelinstead
-    public void Remake() 
+    public HashSet<PathNode> Remake() 
     {
+        //check to make sure this path is still connected to its dependancies
+        if (dependancies != null)
+        {
+            bool removeThis = false;
+            foreach(PathNode dependancy in dependancies)
+            {
+                if (!dependancy.connected.Exists((e) => { return e.mPath == this; }))
+                {
+                    removeThis = true;
+                    break;
+                }
+            }
+            if(removeThis)
+            {
+                NodeManager.Instance.RemovePath(this);
+            }
+        }
+
+        //add start to path
+        start.SetPath(this, id);
+        mNodes = new LinkedList<PathNode>();
+        mNodes.AddLast(start);
+
         //holds all nodes on the tree that have been checked
         HashSet<PathNode> checkedNodes = new HashSet<PathNode>();
 
@@ -36,11 +68,22 @@ public class Path
 
         void Propagate(PathNode node)
         {
-            if (node.mPath != this)
-            {
-                AddNodeToPath(node);
-            }
             checkedNodes.Add(node);
+            if (dependancies != null &&dependancies.Contains(node))
+                return;
+            //collisions with other paths
+            Path path = node.mPath;
+            if (path != null && node.mPath != this)
+            {
+                //check to see if the other path is a dependancy of this path or vice versa
+                if ((dependancies == null || !dependancies.Exists((dependancy) => { return dependancy.mPath == path; }))
+                    && (path.dependancies == null || !path.dependancies.Exists((dependancy) => { return dependancy.mPath == this; })))
+                {
+                    newPathPoints.Add(node);
+                    return;
+                }
+            }
+            AddNodeToPath(node);
             foreach (PathNode p in node.connected)
             {
                 if (!checkedNodes.Contains(p))
@@ -51,24 +94,68 @@ public class Path
         }
 
         //update graph values
-        Propagate(pathBeginning);
-        var longest = GetLongest();
-        foreach(PathNode p in longest)
+        Propagate(start);
+
+        if(newPathPoints.Count > 1)
         {
-            p.SetPath(this, 2);
+            //TODO handle multiple collisions
         }
+        else if (newPathPoints.Count != 0)
+        {
+            Path otherPath = newPathPoints[0].mPath;
+            List<PathNode> dependancies = new List<PathNode>();
+            dependancies.Add(newPathPoints[0].connected.Find((node) => { return node.mPath == this; }));
+            dependancies.Add(newPathPoints[0].connected.Find((node) => { return node.mPath == otherPath; }));
+
+            Clear();
+            otherPath.Clear();
+            NodeManager.Instance.AddPath(3,newPathPoints[0],dependancies);
+            Remake();
+            otherPath.Remake();
+        }
+
+        return checkedNodes;
     }
 
-    //called before the path is removed
-    public void Clear() 
-    { 
+    //called before the path is changed or removed
+    public LinkedList<PathNode> Clear() 
+    {
+        LinkedList<PathNode> changedNodes = mNodes;
         foreach(PathNode n in mNodes)
         {
             n.ClearPath();
         }
-        pathBeginning.SetPath(this, 1);
-        mNodes = new LinkedList<PathNode>();
-        mNodes.AddLast(pathBeginning);
+        return changedNodes;
+    }
+
+    LinkedList<PathNode> GetShortestPath(PathNode toFind, PathNode beginning = null)
+    {
+        beginning = beginning ?? start;
+
+        Queue<LinkedList<PathNode>> paths = new Queue<LinkedList<PathNode>>();
+        LinkedList<PathNode> inital = new LinkedList<PathNode>();
+        inital.AddLast(beginning);
+        paths.Enqueue(inital);
+
+        //bredth first search for toFind
+        while(paths.Count > 0)
+        {
+            LinkedList<PathNode> currentPath = paths.Dequeue();
+            PathNode pathEnd = currentPath.Last.Value;
+            foreach (PathNode toCheck in pathEnd.connected)
+            {
+                if(toCheck == toFind)
+                {
+                    return currentPath;
+                }
+                LinkedList<PathNode> currentCopy = new LinkedList<PathNode>(currentPath);
+                currentCopy.AddLast(toCheck);
+                paths.Enqueue(currentCopy);
+            }
+        }
+
+        //no path found
+        return null;
     }
 
     LinkedList<PathNode> GetLongest()
@@ -95,6 +182,6 @@ public class Path
             return currentLongest;
         }
 
-        return LongestSubPath(pathBeginning, new HashSet<PathNode>());
+        return LongestSubPath(start, new HashSet<PathNode>());
     }
 }

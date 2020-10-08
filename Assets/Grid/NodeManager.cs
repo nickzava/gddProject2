@@ -95,18 +95,104 @@ public class NodeManager : MonoBehaviour
 
     void PathInit()
     {
-        paths.Add(new Path(GetNode(0, 0)));
+        AddPath(1,GetNode(0, 0));
+        AddPath(2, GetNode(width - 1, height - 1));
+    }
+
+    public void AddPath(int id, PathNode start, List<PathNode> dependancies = null)
+    {
+        Path newPath = new Path(id, start, dependancies);
+        paths.Add(newPath);
+        if(dependancies != null)
+        {
+            foreach(PathNode pn in dependancies)
+            {
+                pn.dependantPaths = pn.dependantPaths ?? new List<Path>();
+                pn.dependantPaths.Add(newPath);
+            }
+        }
+    }
+
+    //destroys a path
+    public void RemovePath(Path toRemove)
+    {
+        paths.Remove(toRemove);
+        try
+        {
+            if (toRemove.dependancies != null)
+            {
+                foreach (PathNode pn in toRemove.dependancies)
+                {
+                    pn.dependantPaths.Remove(toRemove);
+                    if (pn.dependantPaths.Count == 0)
+                    {
+                        pn.dependantPaths = null;
+                    }
+                }
+            }
+        }
+        catch
+        {
+            toRemove = null;
+        }
+
+        var toUpdate = toRemove.Clear();
+        foreach (PathNode pn in toUpdate)
+        {
+            pn.FinalizeStates();
+        }
     }
 
     //rotates a given tile 
     public void RotatePathNode(int x, int y, bool isClockwise)
     {
+        //track all changed nodes
+        LinkedList<PathNode> changedNodes = new LinkedList<PathNode>();
+        void AddToChanged(IEnumerable<PathNode> toAdd)
+        {
+            foreach(PathNode pn in toAdd)
+            {
+                changedNodes.AddLast(pn);
+            }
+        }
+
         //get the node to rotate
         PathNode toRotate = GetNode(x, y);
         //rotate the node and get the int representation of it's directions
         List<int> intDirections = toRotate?.Rotate(isClockwise);
+
+        //clear path before graph is changed
+        Path nodePath = toRotate.mPath;
+        changedNodes = nodePath?.Clear() ?? changedNodes;
+
         //update the node with its new connections
         toRotate?.UpdateConnections(GetNodesFromInt(x, y, intDirections));
+
+        //if this node has a path, remake it, otherwise look for other paths that should be remade
+        //only one path that is touching this node needs to be remade, if there is more than one path 
+        //touching this node a collision will occur remaking all colliding paths
+        if (nodePath != null)
+        {
+            AddToChanged(nodePath.Remake());
+        }
+        else
+        {
+            List<PathNode> connected = toRotate.connected;
+            //Remake paths next to this one
+            for (int i = 0; i < connected.Count; i++)
+            {
+                if (connected[i].mPath != null)
+                {
+                    AddToChanged(connected[i].mPath.Remake());
+                    break;
+                }
+            }
+        }
+
+        foreach(PathNode p in changedNodes)
+        {
+            p.FinalizeStates();
+        }
     }
 
     //gets a node from the 
@@ -162,17 +248,5 @@ public class NodeManager : MonoBehaviour
             }
         }
         return nodes;
-    }
-
-    //creates a new path
-    public void AddPath()
-    {
-
-    }
-
-    //destroys a path
-    public void RemovePath(Path toRemove)
-    {
-
     }
 }

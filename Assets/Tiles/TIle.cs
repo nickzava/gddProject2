@@ -7,6 +7,11 @@ public enum TileTypes
     L,I,T,X
 }
 
+public enum FluidTypes
+{
+    Base1, Base2, Combined
+}
+
 //visual representation of a PathNode
 public class Tile : MonoBehaviour
 {
