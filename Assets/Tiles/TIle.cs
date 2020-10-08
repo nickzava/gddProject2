@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public enum TileTypes
 {
@@ -32,6 +33,11 @@ public class Tile : MonoBehaviour
     SpriteRenderer spriteRenderer;
     public TileTypes mType;
 
+    // Bool to track if tile is currently rotating
+    private bool isRotating;
+    // Is true if user double clicks on a tile
+    private bool queuedRotate;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -41,6 +47,8 @@ public class Tile : MonoBehaviour
     //rotation coroutine
     IEnumerator RotateOverTime(bool isClockwise, float seconds)
     {
+        isRotating = true;
+
         float secondsElapsed = 0;
         Quaternion initalRotation = transform.rotation;
         Quaternion rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, 0, 90 * (isClockwise ? 1 : -1)));
@@ -57,6 +65,12 @@ public class Tile : MonoBehaviour
 
         //update backend
         NodeManager.Instance.RotatePathNode(gridX, gridY, true);
+        isRotating = false;
+        if (queuedRotate)
+        {
+            queuedRotate = false;
+            StartCoroutine(RotateOverTime(isClockwise, seconds));
+        }
         yield break;
     }
 
@@ -83,13 +97,30 @@ public class Tile : MonoBehaviour
     //rotates the tile based on the type of click
     //right click -> clockwise rotation
     //left click -> counterclockwise rotation
+    // Will not activate if the rotate coroutine is currently active
     void OnClick(bool isLeftClick)
     {
-        StartCoroutine(RotateOverTime(false, 0.5f));
+        if (!isRotating)
+        {
+            StartCoroutine(RotateOverTime(!isLeftClick, 0.15f));
+        } else
+        {
+            queuedRotate = true;
+        }
     }
 
-    private void OnMouseDown()
+    // Handles input while mouse is hovering on the tile
+    private void OnMouseOver()
     {
-        OnClick(true);
+        //Left Click
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnClick(true);
+        }
+        //Right Click
+        if (Input.GetMouseButtonDown(1))
+        {
+            OnClick(false);
+        }
     }
 }
