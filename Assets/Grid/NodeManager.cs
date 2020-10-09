@@ -105,32 +105,12 @@ public class NodeManager : MonoBehaviour
     {
         Path newPath = new Path(id, start, dependancies);
         paths.Add(newPath);
-        if(dependancies != null)
-        {
-            foreach(PathNode pn in dependancies)
-            {
-                pn.dependantPaths = pn.dependantPaths ?? new List<Path>();
-                pn.dependantPaths.Add(newPath);
-            }
-        }
     }
 
     //destroys a path
     public void RemovePath(Path toRemove)
     {
         paths.Remove(toRemove);
-
-        if (toRemove.dependancies != null)
-        {
-            foreach (PathNode pn in toRemove.dependancies)
-            {
-                pn.dependantPaths.Remove(toRemove);
-                if (pn.dependantPaths.Count == 0)
-                {
-                    pn.dependantPaths = null;
-                }
-            }
-        }
 
         var toUpdate = toRemove.Clear();
         foreach (PathNode pn in toUpdate)

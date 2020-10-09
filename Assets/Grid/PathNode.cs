@@ -11,9 +11,6 @@ public class PathNode
     public Path mPath { get; private set; }
     public int mPathId { get; private set; }
 
-    //paths that feed into this path, if a path is disconected from it's dependantPaths it should be removed
-    public List<Path> dependantPaths;
-
     //valuse to track if there was a meaningful change since the last finalized state
     //these values are important because nodes are frequently removed and the immediatly readded to the same
     //path so tracking their state can prevent extra triggering of events in that case

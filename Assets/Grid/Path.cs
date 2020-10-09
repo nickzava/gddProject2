@@ -22,16 +22,25 @@ public class Path
         mNodes = new LinkedList<PathNode>();
 
         this.start = start;
+        if (start.mPath != null)
+            start.mPath.RemoveNode(start);
         AddNodeToPath(start);
-        start.FinalizeState();
 
-        Remake();
+        foreach(PathNode pn in Remake())
+        {
+            pn.FinalizeState();
+        }
     }
 
     void AddNodeToPath(PathNode toAdd)
     {
         toAdd.SetPath(this, id);
         mNodes.AddLast(toAdd);
+    }
+
+    void RemoveNode(PathNode toRemove)
+    {
+        mNodes.Remove(toRemove);
     }
 
     //called if the path is changed
