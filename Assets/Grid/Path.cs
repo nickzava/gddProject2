@@ -9,9 +9,11 @@ public class Path
     private PathNode start;
     //holds all the nodes in this path
     private LinkedList<PathNode> mNodes;
+    //nodes connected to base paths that feed into this path
+    //only needed for second level paths
     public List<PathNode> dependancies;
     
-    private int id;
+    public int id { get; private set; }
 
     public Path(int id, PathNode start, List<PathNode> dependancies = null) 
     {
@@ -21,7 +23,7 @@ public class Path
 
         this.start = start;
         AddNodeToPath(start);
-        start.FinalizeStates();
+        start.FinalizeState();
 
         Remake();
     }
@@ -35,26 +37,8 @@ public class Path
     //called if the path is changed
     //if the node is now connected to two different sorces they should NOT call this method but 
     //start a new path with an increased power levelinstead
-    public HashSet<PathNode> Remake() 
+    public IEnumerable<PathNode> Remake() 
     {
-        //check to make sure this path is still connected to its dependancies
-        if (dependancies != null)
-        {
-            bool removeThis = false;
-            foreach(PathNode dependancy in dependancies)
-            {
-                if (!dependancy.connected.Exists((e) => { return e.mPath == this; }))
-                {
-                    removeThis = true;
-                    break;
-                }
-            }
-            if(removeThis)
-            {
-                NodeManager.Instance.RemovePath(this);
-            }
-        }
-
         //add start to path
         start.SetPath(this, id);
         mNodes = new LinkedList<PathNode>();
@@ -66,6 +50,7 @@ public class Path
         //holds nodes that could be a point for a new path
         List<PathNode> newPathPoints = new List<PathNode>();
 
+        //recursively adds this path to all nodes connected to this one
         void Propagate(PathNode node)
         {
             checkedNodes.Add(node);
@@ -96,6 +81,7 @@ public class Path
         //update graph values
         Propagate(start);
 
+        //add any new paths that need to be created
         if(newPathPoints.Count > 1)
         {
             //TODO handle multiple collisions
@@ -106,12 +92,7 @@ public class Path
             List<PathNode> dependancies = new List<PathNode>();
             dependancies.Add(newPathPoints[0].connected.Find((node) => { return node.mPath == this; }));
             dependancies.Add(newPathPoints[0].connected.Find((node) => { return node.mPath == otherPath; }));
-
-            Clear();
-            otherPath.Clear();
             NodeManager.Instance.AddPath(3,newPathPoints[0],dependancies);
-            Remake();
-            otherPath.Remake();
         }
 
         return checkedNodes;

@@ -119,29 +119,23 @@ public class NodeManager : MonoBehaviour
     public void RemovePath(Path toRemove)
     {
         paths.Remove(toRemove);
-        try
+
+        if (toRemove.dependancies != null)
         {
-            if (toRemove.dependancies != null)
+            foreach (PathNode pn in toRemove.dependancies)
             {
-                foreach (PathNode pn in toRemove.dependancies)
+                pn.dependantPaths.Remove(toRemove);
+                if (pn.dependantPaths.Count == 0)
                 {
-                    pn.dependantPaths.Remove(toRemove);
-                    if (pn.dependantPaths.Count == 0)
-                    {
-                        pn.dependantPaths = null;
-                    }
+                    pn.dependantPaths = null;
                 }
             }
-        }
-        catch
-        {
-            toRemove = null;
         }
 
         var toUpdate = toRemove.Clear();
         foreach (PathNode pn in toUpdate)
         {
-            pn.FinalizeStates();
+            pn.FinalizeState();
         }
     }
 
@@ -191,9 +185,35 @@ public class NodeManager : MonoBehaviour
             }
         }
 
-        foreach(PathNode p in changedNodes)
+        //check to make sure all dependant paths are still connected to 
+        //their dependancies, if not remove secondary paths
+        List<Path> toRemove = null;
+        foreach (Path dependantPath in paths)
         {
-            p.FinalizeStates();
+            if (dependantPath.dependancies == null)
+                continue;
+            foreach (PathNode pn in dependantPath.dependancies)
+            {
+                //check to see if the dependant node is either no longer a part of the base path, or if
+                //the node is no longer connected to the dependant path
+                if (pn.mPath == null || !pn.connected.Exists((depNode) => { return depNode.mPathId == dependantPath.id; }))
+                {
+                    toRemove = toRemove ?? new List<Path>();
+                    toRemove.Add(dependantPath);
+                }
+            }
+        }
+        if (toRemove != null)
+        {
+            foreach (Path remove in toRemove)
+            {
+                RemovePath(remove);
+            }
+        }
+
+        foreach (PathNode p in changedNodes)
+        {
+            p.FinalizeState();
         }
     }
 

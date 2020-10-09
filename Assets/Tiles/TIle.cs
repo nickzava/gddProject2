@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 
 public enum TileTypes
 {
-    L,I,T,X
+    L, I, T, X
 }
 
 public enum FluidTypes
@@ -27,8 +27,8 @@ public class Tile : MonoBehaviour
     private List<Sprite> XImages;
 
     //grid location of this tile
-    public int gridX =0;
-    public int gridY =0;
+    public int gridX = 0;
+    public int gridY = 0;
 
     SpriteRenderer spriteRenderer;
     public TileTypes mType;
@@ -53,7 +53,7 @@ public class Tile : MonoBehaviour
         Quaternion initalRotation = transform.rotation;
         Quaternion rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, 0, 90 * (isClockwise ? 1 : -1)));
 
-        while(secondsElapsed < seconds)
+        while (secondsElapsed < seconds)
         {
             secondsElapsed += Time.deltaTime;
             transform.rotation = Quaternion.Slerp(initalRotation, rotation, secondsElapsed / seconds);
@@ -103,7 +103,8 @@ public class Tile : MonoBehaviour
         if (!isRotating)
         {
             StartCoroutine(RotateOverTime(!isLeftClick, 0.15f));
-        } else
+        }
+        else
         {
             queuedRotate = true;
         }

@@ -6,10 +6,11 @@ public class PathNode
 {
     //tiles this node is connected to
     public List<PathNode> connected { get; private set; }
-    //the power level of the tile this is attached to (1 for base paths and 2+ for combined paths)
-    public int mPower { get; private set; }
-    //the path this node is part of, NULL if power is 0 / isn't connected to a power source
+
+    //the path this node is part of, mPath is null and id is 0 if it's not part of a path
     public Path mPath { get; private set; }
+    public int mPathId { get; private set; }
+
     //paths that feed into this path, if a path is disconected from it's dependantPaths it should be removed
     public List<Path> dependantPaths;
 
@@ -17,12 +18,11 @@ public class PathNode
     //these values are important because nodes are frequently removed and the immediatly readded to the same
     //path so tracking their state can prevent extra triggering of events in that case
     private bool changed = false;
-    private int finalPower;
-    private Path finalPath;
+    private int finalId;
 
     //called when there is a meaningful change to the node
     //should only be called for final states of a path, not during updating
-    public delegate void NodeStateChangedDelegate(int power);
+    public delegate void NodeStateChangedDelegate(int id);
     public event NodeStateChangedDelegate NodeStateChanged;
 
     //0    up          //cross    //elbow    //line    //tee
@@ -35,9 +35,8 @@ public class PathNode
     {
         this.directions = directions;
         this.connected = new List<PathNode>();
-        this.finalPower = 0;
-        this.finalPath = null;
-        changed = false;
+        ClearPath();
+        FinalizeState();
     }
 
     //removes the node from its path
@@ -47,40 +46,20 @@ public class PathNode
     }
 
     //connects this node to a path
-    public void SetPath(Path newPath, int pathPower)
+    public void SetPath(Path newPath, int pathId)
     {
         mPath = newPath;
-        mPower = pathPower;
+        mPathId = pathId;
     }
 
     //called after a path update, if there was a meaningful change to the node then NodeStateChanged is invoked
-    public void FinalizeStates()
+    public void FinalizeState()
     {
-        if (dependantPaths != null)
+        if(changed || mPathId != finalId)
         {
-            List<Path> toRemove = null;
-            foreach (Path dependant in dependantPaths)
-            {
-                if (mPath == null || !connected.Exists((depNode) => { return depNode.mPath == dependant; }))
-                {
-                    toRemove = toRemove ?? new List<Path>();
-                    toRemove.Add(dependant);
-                }
-            }
-            if(toRemove != null)
-            {
-                foreach(Path remove in toRemove)
-                {
-                    NodeManager.Instance.RemovePath(remove);
-                }
-            }
-        }
-        if(changed || mPower != finalPower || mPath != finalPath)
-        {
-            finalPower = mPower;
-            finalPath = mPath;
+            finalId = mPathId;
             changed = false;
-            NodeStateChanged?.Invoke(mPower);
+            NodeStateChanged?.Invoke(mPathId);
         }
     }
 
