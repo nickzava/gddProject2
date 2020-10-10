@@ -101,7 +101,7 @@ public class NodeManager : MonoBehaviour
         AddPath(2, GetNode(width - 1, height - 1));
     }
 
-    public void AddPath(int id, PathNode start, List<PathNode> dependancies = null)
+    public void AddPath(int id, PathNode start, List<Path> dependancies = null)
     {
         Path newPath = new Path(id, start, dependancies);
         paths.Add(newPath);
@@ -134,15 +134,18 @@ public class NodeManager : MonoBehaviour
 
         //get the node to rotate
         PathNode toRotate = GetNode(x, y);
+        if (toRotate == null)
+            return;
+
         //rotate the node and get the int representation of it's directions
-        List<int> intDirections = toRotate?.Rotate(isClockwise);
+        List<int> intDirections = toRotate.Rotate(isClockwise);
 
         //clear path before graph is changed
         Path nodePath = toRotate.mPath;
         changedNodes = nodePath?.Clear() ?? changedNodes;
 
         //update the node with its new connections
-        toRotate?.UpdateConnections(GetNodesFromInt(x, y, intDirections));
+        toRotate.UpdateConnections(GetNodesFromInt(x, y, intDirections));
 
         //if this node has a path, remake it, otherwise look for other paths that should be remade
         //only one path that is touching this node needs to be remade, if there is more than one path 
@@ -172,17 +175,23 @@ public class NodeManager : MonoBehaviour
         {
             if (dependantPath.dependancies == null)
                 continue;
-            foreach (PathNode pn in dependantPath.dependancies)
+            foreach (Path p in dependantPath.dependancies)
             {
                 //check to see if the dependant node is either no longer a part of the base path, or if
                 //the node is no longer connected to the dependant path
-                if (pn.mPath == null || !pn.connected.Exists((depNode) => { return depNode.mPathId == dependantPath.id; }))
+                int dependantId = dependantPath.id;
+                bool isPartOfDependant(PathNode toCheck)
+                {
+                    return toCheck.mPathId == dependantId;
+                }
+                if (p.GetNodeCount() == 0 || p.GetShortestPath(isPartOfDependant) == null)
                 {
                     toRemove = toRemove ?? new List<Path>();
                     toRemove.Add(dependantPath);
                 }
             }
         }
+
         if (toRemove != null)
         {
             foreach (Path remove in toRemove)

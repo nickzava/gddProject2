@@ -11,22 +11,34 @@ public class Path
     private LinkedList<PathNode> mNodes;
     //nodes connected to base paths that feed into this path
     //only needed for second level paths
-    public List<PathNode> dependancies;
+    public List<Path> dependancies;
     
     public int id { get; private set; }
 
-    public Path(int id, PathNode start, List<PathNode> dependancies = null) 
+    public Path(int id, PathNode start, List<Path> dependancies = null) 
     {
         this.id = id;
         this.dependancies = dependancies;
         mNodes = new LinkedList<PathNode>();
 
-        this.start = start;
-        if (start.mPath != null)
-            start.mPath.RemoveNode(start);
-        AddNodeToPath(start);
+        LinkedList<PathNode> changedNodes = new LinkedList<PathNode>();
+        void AddToChanged(IEnumerable<PathNode> toAdd)
+        {
+            if (toAdd == null) return;
+            foreach (PathNode pn in toAdd)
+            {
+                changedNodes.AddLast(pn);
+            }
+        }
 
-        foreach(PathNode pn in Remake())
+        this.start = start;
+        Path startPath = start.mPath;
+        changedNodes = startPath?.Clear() ?? changedNodes;
+        AddNodeToPath(start);
+        AddToChanged(startPath?.Remake());
+        AddToChanged(Remake());
+
+        foreach(PathNode pn in changedNodes)
         {
             pn.FinalizeState();
         }
@@ -41,6 +53,11 @@ public class Path
     void RemoveNode(PathNode toRemove)
     {
         mNodes.Remove(toRemove);
+    }
+
+    public int GetNodeCount()
+    {
+        return mNodes.Count;
     }
 
     //called if the path is changed
@@ -58,24 +75,50 @@ public class Path
 
         //holds nodes that could be a point for a new path
         List<PathNode> newPathPoints = new List<PathNode>();
+        List<List<Path>> newPathDependancies = new List<List<Path>>();
 
         //recursively adds this path to all nodes connected to this one
         void Propagate(PathNode node)
         {
             checkedNodes.Add(node);
-            if (dependancies != null &&dependancies.Contains(node))
+            if (dependancies != null &&dependancies.Contains(node.mPath))
                 return;
-            //collisions with other paths
-            Path path = node.mPath;
-            if (path != null && node.mPath != this)
+            //check for collisions with other paths
+            Path otherPath = node.mPath;
+            if (otherPath != null && otherPath.id != id)
             {
                 //check to see if the other path is a dependancy of this path or vice versa
-                if ((dependancies == null || !dependancies.Exists((dependancy) => { return dependancy.mPath == path; }))
-                    && (path.dependancies == null || !path.dependancies.Exists((dependancy) => { return dependancy.mPath == this; })))
+                if ((dependancies == null || !dependancies.Exists((thisDependancy) => { return thisDependancy == otherPath; }))
+                    && (otherPath.dependancies == null || !otherPath.dependancies.Exists((otherDependancy) => { return otherDependancy == this; })))
                 {
+                    if(dependancies != null)
+                    {
+                        Debug.Log(id + "(node) Dependant on");
+                        foreach(var d in dependancies)
+                        {
+                            Debug.Log(d.id);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("node not dependant ");
+                    }
+                    if (otherPath.dependancies != null)
+                    {
+                        Debug.Log(otherPath.id + "(other) Dependant on");
+                        foreach (var d in otherPath.dependancies)
+                        {
+                            Debug.Log(d.id);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("otherNOde not dependant ");
+                    }
                     newPathPoints.Add(node);
-                    return;
+                    newPathDependancies.Add(new List<Path>{ this , node.mPath });
                 }
+                return;
             }
             AddNodeToPath(node);
             foreach (PathNode p in node.connected)
@@ -97,11 +140,7 @@ public class Path
         }
         else if (newPathPoints.Count != 0)
         {
-            Path otherPath = newPathPoints[0].mPath;
-            List<PathNode> dependancies = new List<PathNode>();
-            dependancies.Add(newPathPoints[0].connected.Find((node) => { return node.mPath == this; }));
-            dependancies.Add(newPathPoints[0].connected.Find((node) => { return node.mPath == otherPath; }));
-            NodeManager.Instance.AddPath(3,newPathPoints[0],dependancies);
+            NodeManager.Instance.AddPath(3,newPathPoints[0],newPathDependancies[0]);
         }
 
         return checkedNodes;
@@ -118,7 +157,8 @@ public class Path
         return changedNodes;
     }
 
-    LinkedList<PathNode> GetShortestPath(PathNode toFind, PathNode beginning = null)
+    //find a sequence of nodes in the path or directly next to the path that satisfies the given predicate
+    public LinkedList<PathNode> GetShortestPath(System.Predicate<PathNode> predicate, PathNode beginning = null)
     {
         beginning = beginning ?? start;
 
@@ -127,20 +167,24 @@ public class Path
         inital.AddLast(beginning);
         paths.Enqueue(inital);
 
-        //bredth first search for toFind
+        //bredth first search for a matching node
         while(paths.Count > 0)
         {
             LinkedList<PathNode> currentPath = paths.Dequeue();
             PathNode pathEnd = currentPath.Last.Value;
             foreach (PathNode toCheck in pathEnd.connected)
             {
-                if(toCheck == toFind)
+                if (predicate(toCheck))
                 {
+                    currentPath.AddLast(toCheck);
                     return currentPath;
                 }
-                LinkedList<PathNode> currentCopy = new LinkedList<PathNode>(currentPath);
-                currentCopy.AddLast(toCheck);
-                paths.Enqueue(currentCopy);
+                else if (toCheck.mPathId == id && !currentPath.Contains(toCheck))
+                {
+                    LinkedList<PathNode> currentCopy = new LinkedList<PathNode>(currentPath);
+                    currentCopy.AddLast(toCheck);
+                    paths.Enqueue(currentCopy);
+                }
             }
         }
 
@@ -148,7 +192,13 @@ public class Path
         return null;
     }
 
-    LinkedList<PathNode> GetLongest()
+    //returns a sequence of nodes from the beginning to toFind
+    public LinkedList<PathNode> GetShortestPath(PathNode toFind, PathNode beginning = null)
+    {
+        return GetShortestPath((n) => { return n == toFind; }, beginning);
+    }
+
+    public LinkedList<PathNode> GetLongestSequenceInPath()
     {
         LinkedList<PathNode> LongestSubPath(PathNode start, HashSet<PathNode> checkedNodes)
         {
