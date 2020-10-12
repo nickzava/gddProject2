@@ -42,6 +42,8 @@ public class NodeManager : MonoBehaviour
 
     void GridInit()
     {
+		float XTcounter = 0;		//adjusts spawn rate of X and T based on how many already spawned
+
 		Random.InitState(seed);
 		for (int x = 0; x < width; x++)
         {
@@ -49,24 +51,29 @@ public class NodeManager : MonoBehaviour
             {
                 List<int> connections = new List<int>();
 				//weighted randomness, I and L are more common than X and T
-                int typeNum = (int)Mathf.Floor(Mathf.Pow(Random.value, 2) * 4);
+                int typeNum = (int)Mathf.Floor(Mathf.Pow(Random.value, 2) * (4-(XTcounter/10)));
                 TileTypes type = (TileTypes)typeNum;
+				Debug.Log(type);
                 switch (type)
                 {
                     case TileTypes.L:
+						XTcounter -= .15f;
                         connections.Add(3);
                         connections.Add(2);
                         break;
                     case TileTypes.T:
+						XTcounter++;
                         connections.Add(3);
                         connections.Add(2);
                         connections.Add(1);
                         break;
                     case TileTypes.I:
-                        connections.Add(2);
+						XTcounter -= .15f;
+						connections.Add(2);
                         connections.Add(0);
                         break;
                     case TileTypes.X:
+						XTcounter++;
                         connections.Add(3);
                         connections.Add(2);
                         connections.Add(1);
