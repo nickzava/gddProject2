@@ -14,6 +14,7 @@ public class Path
     public List<Path> dependancies;
     
     public int id { get; private set; }
+    public int Count { get { return mNodes?.Count ?? 0; } }
 
     public Path(int id, PathNode start, List<Path> dependancies = null) 
     {
@@ -31,6 +32,7 @@ public class Path
             }
         }
 
+        //if the start node is part of another path, remove it and update its path
         this.start = start;
         Path startPath = start.mPath;
         changedNodes = startPath?.Clear() ?? changedNodes;
@@ -198,14 +200,15 @@ public class Path
         return GetShortestPath((n) => { return n == toFind; }, beginning);
     }
 
+    //returns a linked list of nodes that represents the longest unbroken sequence of path nodes in the path
     public LinkedList<PathNode> GetLongestSequenceInPath()
     {
+        //local function used to recursively search for the longest path
         LinkedList<PathNode> LongestSubPath(PathNode start, HashSet<PathNode> checkedNodes)
         {
             checkedNodes.Add(start);
             LinkedList<PathNode> currentLongest = null;
             LinkedList<PathNode> temp;
-            checkedNodes.Add(start);
             foreach(PathNode p in start.connected)
             {
                 if (!checkedNodes.Contains(p))

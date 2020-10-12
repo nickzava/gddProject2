@@ -40,6 +40,7 @@ public class NodeManager : MonoBehaviour
         PathInit();
     }
 
+    //creates a grid of path nodes
     void GridInit()
     {
 		float XTcounter = 0;		//adjusts spawn rate of X and T based on how many already spawned
@@ -89,6 +90,7 @@ public class NodeManager : MonoBehaviour
         }
     }
 
+    //connects nodes nodes together 
     void NodeInit()
     {
         PathNode toInit;
@@ -102,12 +104,14 @@ public class NodeManager : MonoBehaviour
         }
     }
 
+    //initalizes paths
     void PathInit()
     {
         AddPath(1,GetNode(0, 0));
         AddPath(2, GetNode(width - 1, height - 1));
     }
 
+    //adds a new path
     public void AddPath(int id, PathNode start, List<Path> dependancies = null)
     {
         Path newPath = new Path(id, start, dependancies);
@@ -214,7 +218,7 @@ public class NodeManager : MonoBehaviour
     }
 
     //gets a node from the 
-    private PathNode GetNode(int x, int y)
+    public PathNode GetNode(int x, int y)
     {
         if (x < width &&
             x >= 0 &&

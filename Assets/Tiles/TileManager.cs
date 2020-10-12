@@ -13,6 +13,7 @@ public class TileManager : MonoBehaviour
     public GameObject tilePref;
 
     private Tile[,] tiles;
+    private Dictionary<PathNode, Tile> pathNodeToTile;
 
     void Awake()
     {
@@ -25,17 +26,26 @@ public class TileManager : MonoBehaviour
             Instance = this;
         }
         tiles = new Tile[width, height];
+        pathNodeToTile = new Dictionary<PathNode, Tile>();
     }
 
     public void AddTile(int x, int y, TileTypes type)
     {
+        //calculate location for new tile
         Vector3 location = new Vector3(x * tileSize - width/2 * tileSize, y * tileSize - height / 2 * tileSize,0);
+
+        //create new tile
         Tile newTile =  Instantiate(tilePref, location, Quaternion.identity).GetComponent<Tile>();
+        newTile.Init(x, y, type);
+
+        //add tile to data structures
         tiles[x, y] = newTile;
-        newTile.gridX = x;
-        newTile.gridY = y;
-        newTile.mType = type;
-        NodeManager.Instance.AddMethodToNodeEvent(x, y, newTile.SetPower);
-        newTile.SetPower(0);
+        pathNodeToTile.Add(NodeManager.Instance.GetNode(x, y), newTile);
+    }
+    
+    //used to get the tile that corresponds to the back end node
+    public Tile GetTileFromNode(PathNode node)
+    {
+        return pathNodeToTile[node];
     }
 }

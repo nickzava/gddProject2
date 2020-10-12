@@ -44,6 +44,15 @@ public class Tile : MonoBehaviour
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
+    public void Init(int x, int y, TileTypes type)
+    {
+        gridX = x;
+        gridY = y;
+        mType = type;
+        NodeManager.Instance.AddMethodToNodeEvent(x, y, SetPower);
+        SetPower(0);
+    }
+
     //rotation coroutine
     IEnumerator RotateOverTime(bool isClockwise, float seconds)
     {
