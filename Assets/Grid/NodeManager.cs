@@ -124,6 +124,14 @@ public class NodeManager : MonoBehaviour
         paths.Remove(toRemove);
 
         var toUpdate = toRemove.Clear();
+        if (toRemove.dependancies != null)
+        {
+            foreach(Path p in toRemove.dependancies)
+            {
+                p.Remake();
+            }
+        }
+
         foreach (PathNode pn in toUpdate)
         {
             pn.FinalizeState();
@@ -195,7 +203,7 @@ public class NodeManager : MonoBehaviour
                 {
                     return toCheck.mPathId == dependantId;
                 }
-                if (p.GetNodeCount() == 0 || p.GetShortestPath(isPartOfDependant) == null)
+                if (p.GetNodeCount() == 0 || p.FindClosestNodeInPath(isPartOfDependant) == null)
                 {
                     toRemove = toRemove ?? new List<Path>();
                     toRemove.Add(dependantPath);
@@ -270,5 +278,40 @@ public class NodeManager : MonoBehaviour
             }
         }
         return nodes;
+    }
+
+    //duplicate of path shortest path, but search isn't restricted to a single path
+    public PathNode FindClosestNode(System.Predicate<PathNode> predicate, PathNode beginning)
+    {
+        Queue<PathNode> toCheckQueue = new Queue<PathNode>();
+        HashSet<PathNode> checkedNodes = new HashSet<PathNode>();
+
+        void addToCheckQueue(PathNode checkThis)
+        {
+            toCheckQueue.Enqueue(checkThis);
+            checkedNodes.Add(checkThis);
+        }
+
+        addToCheckQueue(beginning);
+
+        //bredth first search for a matching node
+        while (toCheckQueue.Count > 0)
+        {
+            PathNode node = toCheckQueue.Dequeue();
+            foreach (PathNode toCheck in node.connected)
+            {
+                if (predicate(toCheck))
+                {
+                    return toCheck;
+                }
+                else if (!checkedNodes.Contains(toCheck))
+                {
+                    addToCheckQueue(toCheck);
+                }
+            }
+        }
+
+        //no node found
+        return null;
     }
 }

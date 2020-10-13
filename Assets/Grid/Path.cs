@@ -76,7 +76,7 @@ public class Path
         HashSet<PathNode> checkedNodes = new HashSet<PathNode>();
 
         //holds nodes that could be a point for a new path
-        List<PathNode> newPathPoints = new List<PathNode>();
+        List<PathNode> collisions = new List<PathNode>();
         List<List<Path>> newPathDependancies = new List<List<Path>>();
 
         //recursively adds this path to all nodes connected to this one
@@ -93,32 +93,8 @@ public class Path
                 if ((dependancies == null || !dependancies.Exists((thisDependancy) => { return thisDependancy == otherPath; }))
                     && (otherPath.dependancies == null || !otherPath.dependancies.Exists((otherDependancy) => { return otherDependancy == this; })))
                 {
-                    if(dependancies != null)
-                    {
-                        Debug.Log(id + "(node) Dependant on");
-                        foreach(var d in dependancies)
-                        {
-                            Debug.Log(d.id);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("node not dependant ");
-                    }
-                    if (otherPath.dependancies != null)
-                    {
-                        Debug.Log(otherPath.id + "(other) Dependant on");
-                        foreach (var d in otherPath.dependancies)
-                        {
-                            Debug.Log(d.id);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("otherNOde not dependant ");
-                    }
-                    newPathPoints.Add(node);
-                    newPathDependancies.Add(new List<Path>{ this , node.mPath });
+                    collisions.Add(node);
+                    newPathDependancies.Add(new List<Path> { this, node.mPath });
                 }
                 return;
             }
@@ -136,15 +112,26 @@ public class Path
         Propagate(start);
 
         //add any new paths that need to be created
-        if(newPathPoints.Count > 1)
+        if(collisions.Count > 0)
         {
-            //TODO handle multiple collisions
-        }
-        else if (newPathPoints.Count != 0)
-        {
-            NodeManager.Instance.AddPath(3,newPathPoints[0],newPathDependancies[0]);
-        }
+            PathNode GetNearestCombinePoint(PathNode searchStart)
+            {
+                bool IsCombinePoint(PathNode toCheck)
+                {
+                    return toCheck.directions.Count > 2;
+                }
+                return NodeManager.Instance.FindClosestNode(IsCombinePoint,searchStart);
+            }
 
+            if (collisions.Count != 0)
+            {
+                NodeManager.Instance.AddPath(3, GetNearestCombinePoint(collisions[0]), newPathDependancies[0]);
+                return checkedNodes;
+            }
+
+            //TODO multiple collisions
+            Debug.Log("Multiple collisions! Path not created");
+        }
         return checkedNodes;
     }
 
@@ -191,6 +178,42 @@ public class Path
         }
 
         //no path found
+        return null;
+    }
+
+    public PathNode FindClosestNodeInPath(System.Predicate<PathNode> predicate, PathNode beginning = null)
+    {
+        beginning = beginning ?? start;
+
+        Queue<PathNode> toCheckQueue = new Queue<PathNode>();
+        HashSet<PathNode> checkedNodes = new HashSet<PathNode>();
+
+        void addToCheckQueue(PathNode checkThis)
+        {
+            toCheckQueue.Enqueue(checkThis);
+            checkedNodes.Add(checkThis);
+        }
+
+        addToCheckQueue(beginning);
+
+        //bredth first search for a matching node
+        while (toCheckQueue.Count > 0)
+        {
+            PathNode node = toCheckQueue.Dequeue();
+            foreach (PathNode toCheck in node.connected)
+            {
+                if (predicate(toCheck))
+                {
+                    return toCheck;
+                }
+                else if (!checkedNodes.Contains(toCheck) && toCheck.mPath == this)
+                {
+                    addToCheckQueue(toCheck);
+                }
+            }
+        }
+
+        //no node found
         return null;
     }
 
