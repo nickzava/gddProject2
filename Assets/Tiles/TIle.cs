@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public enum TileTypes
 {
@@ -13,8 +12,7 @@ public enum FluidTypes
     Base1, Base2, Combined
 }
 
-//visual representation of a PathNode
-public class Tile : MonoBehaviour
+public abstract class Tile : MonoBehaviour
 {
     [Header("Images")]
     [SerializeField]
@@ -30,13 +28,13 @@ public class Tile : MonoBehaviour
     public int gridX = 0;
     public int gridY = 0;
 
-    SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
     public TileTypes mType;
 
     // Bool to track if tile is currently rotating
-    private bool isRotating;
+    protected bool isRotating;
     // Is true if user double clicks on a tile
-    private bool queuedRotate;
+    protected bool queuedRotate;
 
     // Start is called before the first frame update
     void Awake()
@@ -53,8 +51,28 @@ public class Tile : MonoBehaviour
         SetPower(0);
     }
 
+    public void SetPower(int power)
+    {
+        power = power >= LImages.Count ? LImages.Count - 1 : power;
+        switch (mType)
+        {
+            case TileTypes.L:
+                spriteRenderer.sprite = LImages[power];
+                break;
+            case TileTypes.T:
+                spriteRenderer.sprite = TImages[power];
+                break;
+            case TileTypes.I:
+                spriteRenderer.sprite = IImages[power];
+                break;
+            case TileTypes.X:
+                spriteRenderer.sprite = XImages[power];
+                break;
+        }
+    }
+
     //rotation coroutine
-    IEnumerator RotateOverTime(bool isClockwise, float seconds)
+    protected IEnumerator RotateOverTime(bool isClockwise, float seconds)
     {
         isRotating = true;
 
@@ -81,56 +99,5 @@ public class Tile : MonoBehaviour
             StartCoroutine(RotateOverTime(isClockwise, seconds));
         }
         yield break;
-    }
-
-    public void SetPower(int power)
-    {
-        power = power >= LImages.Count ? LImages.Count - 1 : power;
-        switch (mType)
-        {
-            case TileTypes.L:
-                spriteRenderer.sprite = LImages[power];
-                break;
-            case TileTypes.T:
-                spriteRenderer.sprite = TImages[power];
-                break;
-            case TileTypes.I:
-                spriteRenderer.sprite = IImages[power];
-                break;
-            case TileTypes.X:
-                spriteRenderer.sprite = XImages[power];
-                break;
-        }
-    }
-
-    //rotates the tile based on the type of click
-    //right click -> clockwise rotation
-    //left click -> counterclockwise rotation
-    // Will not activate if the rotate coroutine is currently active
-    void OnClick(bool isLeftClick)
-    {
-        if (!isRotating)
-        {
-            StartCoroutine(RotateOverTime(!isLeftClick, 0.15f));
-        }
-        else
-        {
-            queuedRotate = true;
-        }
-    }
-
-    // Handles input while mouse is hovering on the tile
-    private void OnMouseOver()
-    {
-        //Left Click
-        if (Input.GetMouseButtonDown(0))
-        {
-            OnClick(true);
-        }
-        //Right Click
-        if (Input.GetMouseButtonDown(1))
-        {
-            OnClick(false);
-        }
     }
 }
