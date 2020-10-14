@@ -42,10 +42,32 @@ public class TileManager : MonoBehaviour
         tiles[x, y] = newTile;
         pathNodeToTile.Add(NodeManager.Instance.GetNode(x, y), newTile);
     }
+
+	//clears all tiles
+	public void ClearTiles()
+	{
+		for (int x = 0; x < width; x++)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				if (tiles[x, y] != null)
+				{
+					Destroy(tiles[x, y].gameObject);
+				}
+			}
+		}
+	}
     
     //used to get the tile that corresponds to the back end node
     public Tile GetTileFromNode(PathNode node)
     {
         return pathNodeToTile[node];
     }
+
+	//sets width and height of tile array
+	public void SetWidthHeight(int _width, int _height)
+	{
+		width = _width;
+		height = _height;
+	}
 }

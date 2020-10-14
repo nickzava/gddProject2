@@ -6,9 +6,12 @@ using UnityEngine;
 public class NodeManager : MonoBehaviour
 {
     public static NodeManager Instance;
-	public int seed;	//currently assigned manually in Unity
+	[Tooltip("Set to true to generate level on start")]
+	public bool generateLevelOnStart; //set to true to generate level 
 
-    int width = 10;
+
+	int seed;    //currently assigned manually in Unity
+	int width = 10;
     int height = 10;
 
     //holds a 2D list of all path nodes
@@ -35,9 +38,12 @@ public class NodeManager : MonoBehaviour
 
     private void Start()
     {
-        GridInit();
-        NodeInit();
-        PathInit();
+		if (generateLevelOnStart)
+		{
+			GridInit();
+			NodeInit();
+			PathInit();
+		}
     }
 
     //creates a grid of path nodes
@@ -53,6 +59,7 @@ public class NodeManager : MonoBehaviour
                 List<int> connections = new List<int>();
 				//weighted randomness, I and L are more common than X and T
                 int typeNum = (int)Mathf.Floor(Mathf.Pow(Random.value, 2) * (4-(XTcounter/10)));
+				if (typeNum > 4) { typeNum = 4; }
                 TileTypes type = (TileTypes)typeNum;
 				Debug.Log(type);
                 switch (type)
@@ -314,4 +321,17 @@ public class NodeManager : MonoBehaviour
         //no node found
         return null;
     }
+
+	//Generate level with given seed, width, and height
+	public void GenerateLevel(int _seed, int _width, int _height)
+	{
+		seed = _seed;
+		width = _width;
+		height = _height;
+		TileManager.Instance.SetWidthHeight(_width, _height);
+
+		GridInit();
+		NodeInit();
+		PathInit();
+	}
 }
