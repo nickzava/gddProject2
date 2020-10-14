@@ -18,7 +18,7 @@ public class NodeManager : MonoBehaviour
     //access using GetNode
     PathNode[,] pathNodes;
     //holds all active paths
-    List<Path> paths;
+    public List<Path> paths;
 
     // Start is called before the first frame update
     void Awake()

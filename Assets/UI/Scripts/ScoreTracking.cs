@@ -9,6 +9,8 @@ public class ScoreTracking : MonoBehaviour
     public Text totalScoreLabel;
     public Text levelScoreValue;
     public Text totalScoreValue;
+    public NodeManager nodeManager;
+    public Button endButton;
 
     int levelScore = 0; //Current level score
     int totalScore = 0; //Total Score
@@ -30,10 +32,11 @@ public class ScoreTracking : MonoBehaviour
     /// </summary>
     void onGUI()
     {
+        
         totalScoreLabel.text = "Total Score:";
         levelScoreLabel.text = "Level Score:";
-        totalScore = 100000;
-        levelScore = 2000000;
+
+        UpdateCurrentScore(nodeManager.paths, false);
         totalScoreValue.text = totalScore.ToString();
         levelScoreValue.text = levelScore.ToString();
 
@@ -44,12 +47,31 @@ public class ScoreTracking : MonoBehaviour
     /// </summary>
     /// <param name="spellStrength">Used to track what level of spell it is</param>
     /// <param name="bonusConnected">If the bonus tiles have been filled</param>
-    public void UpdateCurrentScore(int spellStrength, bool bonusConnected)
+    public void UpdateCurrentScore(List<Path> paths, bool bonusConnected)
     {
-        levelScore += BASE_SCORE * (spellStrength * 3);
-        if (bonusConnected)
+        int spellStrength;
+        int pathLength;
+        levelScore = 0;
+        for (int i = 0; i < paths.Count; i++)
         {
-            levelScore += 200 * spellStrength;
+
+            spellStrength = paths[i].id;
+            pathLength = paths[i].GetLongestSequenceInPath().Count;
+            //If the spell are a level one spell (paths 1 and 2) set the multiplier to 1
+            if (spellStrength == 1 || spellStrength == 2)
+            {
+                spellStrength = 1;
+            }
+            //If the spell is 3, that means it is a combined spell, set the multiplier to 2
+            else if (spellStrength == 3)
+            {
+                spellStrength = 2;
+            }
+            levelScore += BASE_SCORE * (spellStrength * pathLength);
+            if (bonusConnected)
+            {
+                levelScore += 200 * spellStrength;
+            }
         }
     }
 
