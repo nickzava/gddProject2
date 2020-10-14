@@ -61,7 +61,6 @@ public class NodeManager : MonoBehaviour
                 int typeNum = (int)Mathf.Floor(Mathf.Pow(Random.value, 2) * (4-(XTcounter/10)));
 				if (typeNum > 4) { typeNum = 4; }
                 TileTypes type = (TileTypes)typeNum;
-				Debug.Log(type);
                 switch (type)
                 {
                     case TileTypes.L:

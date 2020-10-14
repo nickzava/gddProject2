@@ -53,6 +53,7 @@ public abstract class Tile : MonoBehaviour
 
     public void SetPower(int power)
     {
+        //if there is no image then use the last image in the array
         power = power >= LImages.Count ? LImages.Count - 1 : power;
         switch (mType)
         {
