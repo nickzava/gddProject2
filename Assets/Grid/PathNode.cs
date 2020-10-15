@@ -83,14 +83,14 @@ public class PathNode
         {
             for (int i = 0; i < directions.Count; i++)
             {
-                directions[i] = (directions[i] + 1) % 4;
+                directions[i] = directions[i] == 0 ? 3 : directions[i] - 1;
             }
         }
         else
         {
             for (int i = 0; i < directions.Count; i++)
             {
-                directions[i] = directions[i] - 1 < 0 ? 3 : directions[i] - 1;
+                directions[i] = (directions[i] + 1) % 4;
             }
         }
         return directions;

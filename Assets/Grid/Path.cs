@@ -120,7 +120,8 @@ public class Path
                 {
                     return toCheck.directions.Count > 2;
                 }
-                return NodeManager.Instance.FindClosestNode(IsCombinePoint,searchStart);
+                //return search start if no valid node is found
+                return NodeManager.Instance.FindClosestNode(IsCombinePoint,searchStart) ?? searchStart;
             }
 
             if (collisions.Count != 0)

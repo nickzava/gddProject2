@@ -16,7 +16,7 @@ public class BaseTile : Tile
     {
         if (!isRotating)
         {
-            StartCoroutine(RotateOverTime(!isLeftClick, 0.15f));
+            StartCoroutine(RotateOverTime(isLeftClick, 0.15f));
         }
         else
         {

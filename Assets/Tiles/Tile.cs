@@ -92,7 +92,8 @@ public abstract class Tile : MonoBehaviour
         transform.rotation = rotation;
 
         //update backend
-        NodeManager.Instance.RotatePathNode(gridX, gridY, true);
+        NodeManager.Instance.RotatePathNode(gridX, gridY, isClockwise);
+
         isRotating = false;
         if (queuedRotate)
         {
