@@ -28,4 +28,12 @@ public class NoRotTile : Tile
             OnClick(false);
         }
     }
+
+
+	//changes color of noRot tiles (commented out because it's hard to see the tint)
+	//public override void SetPower(int power)
+	//{
+	//	base.SetPower(power);
+	//	spriteRenderer.color = new Color(132, 132, 255, 255);
+	//}
 }

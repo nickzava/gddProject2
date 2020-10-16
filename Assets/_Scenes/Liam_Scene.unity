@@ -210,6 +210,7 @@ MonoBehaviour:
   seed: 68
   width: 5
   height: 5
+  tutorialTextString: 'Tip: Tinted tiles cannot be rotated'
 --- !u!114 &103773290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +379,84 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105153961}
+  m_CullTransparentMesh: 0
+--- !u!1 &199100040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 199100041}
+  - component: {fileID: 199100043}
+  - component: {fileID: 199100042}
+  m_Layer: 5
+  m_Name: TutorialTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &199100041
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199100040}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1701196769}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -639.3, y: 241.7}
+  m_SizeDelta: {x: 229.49628, y: 254.52618}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &199100042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199100040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &199100043
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199100040}
   m_CullTransparentMesh: 0
 --- !u!1 &742541610
 GameObject:
@@ -859,7 +938,7 @@ RectTransform:
   m_Children:
   - {fileID: 105153962}
   m_Father: {fileID: 1701196769}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -882,6 +961,7 @@ MonoBehaviour:
   seed: 0
   width: 0
   height: 0
+  tutorialTextString: 
 --- !u!114 &981219566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1240,6 +1320,7 @@ MonoBehaviour:
   seed: 455
   width: 10
   height: 10
+  tutorialTextString: 
 --- !u!114 &1243165274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1387,6 +1468,7 @@ MonoBehaviour:
   seed: 0
   width: 0
   height: 0
+  tutorialTextString: 
 --- !u!114 &1244341468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,9 +1613,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateToTransition: 2
-  seed: 66
+  seed: 78
   width: 3
   height: 3
+  tutorialTextString: 'Tip: Use left click and right click to rotate the tiles'
 --- !u!114 &1370958705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1830,6 +1913,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 199100041}
   - {fileID: 981219564}
   m_Father: {fileID: 1112874422}
   m_RootOrder: 0
@@ -1930,6 +2014,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileSize: 1
   tilePref: {fileID: 3199906270970288779, guid: 51e261995794bb24c8bf7024ac9713bf,
+    type: 3}
+  noRotPref: {fileID: 4403477635583880067, guid: dee4924721c6c1946b6f2a198df232c5,
     type: 3}
 --- !u!4 &1946964967
 Transform:
@@ -2045,6 +2131,7 @@ MonoBehaviour:
   seed: 0
   width: 0
   height: 0
+  tutorialTextString: 
 --- !u!114 &2026295165
 MonoBehaviour:
   m_ObjectHideFlags: 0

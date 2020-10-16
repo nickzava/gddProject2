@@ -11,6 +11,7 @@ public class TileManager : MonoBehaviour
 
     public float tileSize;
     public GameObject tilePref;
+	public GameObject noRotPref;
 
     private Tile[,] tiles;
     private Dictionary<PathNode, Tile> pathNodeToTile;
@@ -29,13 +30,21 @@ public class TileManager : MonoBehaviour
         pathNodeToTile = new Dictionary<PathNode, Tile>();
     }
 
-    public void AddTile(int x, int y, TileTypes type)
+    public void AddTile(int x, int y, TileTypes type, bool noRot)
     {
         //calculate location for new tile
         Vector3 location = new Vector3(x * tileSize - width/2 * tileSize, y * tileSize - height / 2 * tileSize,0);
 
-        //create new tile
-        Tile newTile =  Instantiate(tilePref, location, Quaternion.identity).GetComponent<Tile>();
+		//create new tile
+		Tile newTile;
+		if (!noRot)
+		{
+			newTile = Instantiate(tilePref, location, Quaternion.identity).GetComponent<Tile>();
+		}
+		else	//if noRot is true, then a noRotPrefab is instantiated
+		{
+			newTile = Instantiate(noRotPref, location, Quaternion.identity).GetComponent<Tile>();
+		}
         newTile.Init(x, y, type);
 
         //add tile to data structures

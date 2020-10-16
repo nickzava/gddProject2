@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameStates : MonoBehaviour
 {
@@ -11,18 +12,21 @@ public class GameStates : MonoBehaviour
 	GameObject levelSelect; //holds level select UI buttons
 	GameObject inLevel;		//holds in level UI buttons
 	NodeManager nodeManager;
+	Text tutorialText;		//references Text object in scene
 
 	public GameState StateToTransition;
 	public int seed;
 	public int width;
 	public int height;
+	public string tutorialTextString;	//string to set tutorial text too
 
 	private void Awake()
 	{
-		mainMenu = GameObject.Find("MainMenu");
-		levelSelect = GameObject.Find("LevelSelect");
-		nodeManager = GameObject.Find("NodeManager").GetComponent<NodeManager>();
-		inLevel = GameObject.Find("InLevel");
+		mainMenu = GameObject.Find("MainMenu");										//main menu UI container
+		levelSelect = GameObject.Find("LevelSelect");                               //level select UI container
+		inLevel = GameObject.Find("InLevel");										//in level UI container
+		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
+		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
 	}
 
 	// Start is called before the first frame update
@@ -62,6 +66,7 @@ public class GameStates : MonoBehaviour
 				levelSelect.SetActive(false);
 				inLevel.SetActive(true);
 				nodeManager.GenerateLevel(seed, width, height);
+				tutorialText.text = tutorialTextString;
 				break;
 		}
 	}

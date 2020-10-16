@@ -89,9 +89,14 @@ public class NodeManager : MonoBehaviour
                     default:
                         break;
                 }
+				bool noRot = false;
+				if (Random.value < .05f)		//5% chance of tile being no rotation
+				{
+					noRot = true;
+				}
 
                 pathNodes[x, y] = new PathNode(connections);
-				TileManager.Instance.AddTile(x, y, type);
+				TileManager.Instance.AddTile(x, y, type, noRot);
             }
         }
     }
