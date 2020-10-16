@@ -155,7 +155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -712.19995, y: 11.701}
+  m_AnchoredPosition: {x: 349, y: 5}
   m_SizeDelta: {x: 145.48349, y: 23.40158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7848239
@@ -414,7 +414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -731.89, y: 78.8}
+  m_AnchoredPosition: {x: 329.30994, y: 72.099014}
   m_SizeDelta: {x: 145.48349, y: 23.40158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &53416760
@@ -990,7 +990,7 @@ GameObject:
   - component: {fileID: 277022987}
   - component: {fileID: 277022986}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ScoreBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1012,7 +1012,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -654.1, y: 3.1}
+  m_AnchoredPosition: {x: 407.09998, y: -3.6009889}
   m_SizeDelta: {x: 301.05746, y: 490.15833}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &277022986
@@ -1640,7 +1640,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -732, y: 213.2}
+  m_AnchoredPosition: {x: 329.19995, y: 206.49901}
   m_SizeDelta: {x: 145.48349, y: 23.40158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &675496475
@@ -1997,7 +1997,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -691, y: 146.00002}
+  m_AnchoredPosition: {x: 370.19995, y: 139.29903}
   m_SizeDelta: {x: 145.48349, y: 23.40158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &973894061
@@ -2581,6 +2581,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1442525892}
   m_CullTransparentMesh: 0
+--- !u!1 &1497908922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1497908924}
+  - component: {fileID: 1497908923}
+  m_Layer: 0
+  m_Name: athameMan
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1497908923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497908922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe925be0f6f4054abfc3cde90f7c1f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRaised: 0
+  dagger: {fileID: 7793154712112181184, guid: 4b46398a2d19faf469c645a51da82575, type: 3}
+  shadow: {fileID: 2074472891851003466, guid: fbe14faaaa8b3044bb6e0c1961fda676, type: 3}
+  leftDagger: {fileID: 21300000, guid: e133662bd579df14abcff9705325af09, type: 3}
+  rightDagger: {fileID: 21300000, guid: 95491fa99ce70b343a96ddfd8ed68c61, type: 3}
+  upDagger: {fileID: 21300000, guid: f4ec86f54e26d8d4f9d7a8eeace04ff2, type: 3}
+  downDagger: {fileID: 21300000, guid: 2ceed64e74282c24881a45d9236d84f5, type: 3}
+--- !u!4 &1497908924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497908922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 820.0904, y: 368.09982, z: -35.328995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1556903366
 GameObject:
   m_ObjectHideFlags: 0
@@ -2773,7 +2823,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -669.4, y: -101.1}
+  m_AnchoredPosition: {x: 391.79993, y: -107.80099}
   m_SizeDelta: {x: 209.04279, y: 57.834183}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1701982801
@@ -2819,12 +2869,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 1497908923}
+        m_MethodName: StartDaggerMovement
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 723276938}
+        m_MethodName: LevelEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
