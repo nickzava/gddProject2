@@ -70,14 +70,14 @@ public class NodeManager : MonoBehaviour
                         break;
                     case TileTypes.T:
 						XTcounter++;
+                        connections.Add(0);
                         connections.Add(3);
                         connections.Add(2);
-                        connections.Add(1);
                         break;
                     case TileTypes.I:
 						XTcounter -= .15f;
-						connections.Add(2);
-                        connections.Add(0);
+						connections.Add(0);
+                        connections.Add(2);
                         break;
                     case TileTypes.X:
 						XTcounter++;

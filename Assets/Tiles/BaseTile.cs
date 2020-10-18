@@ -12,6 +12,24 @@ public class BaseTile : Tile
     //right click -> clockwise rotation
     //left click -> counterclockwise rotation
     // Will not activate if the rotate coroutine is currently active
+
+    private static Sprite[] baseImages;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (baseImages == null)
+        {
+            baseImages = Resources.LoadAll<Sprite>("BaseSprites");
+        }
+    }
+
+    public override void Init(int x, int y, TileTypes type)
+    {
+        base.Init(x, y, type);
+        baseRenderer.sprite = GetSprite(type,baseImages);
+    }
+
     void OnClick(bool isLeftClick)
     {
         if (!isRotating)

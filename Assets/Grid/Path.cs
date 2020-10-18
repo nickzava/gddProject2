@@ -118,7 +118,8 @@ public class Path
             {
                 bool IsCombinePoint(PathNode toCheck)
                 {
-                    return toCheck.directions.Count > 2;
+                    return (toCheck.directions.Count > 2 &&
+                        toCheck.mPath.start != toCheck);
                 }
                 //return search start if no valid node is found
                 return NodeManager.Instance.FindClosestNode(IsCombinePoint,searchStart) ?? searchStart;
