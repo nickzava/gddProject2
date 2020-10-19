@@ -54,53 +54,66 @@ public class NodeManager : MonoBehaviour
 		Random.InitState(seed);
 		for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
-            {
-                List<int> connections = new List<int>();
+			for (int y = 0; y < height; y++)
+			{
+				List<int> connections = new List<int>();
 				//weighted randomness, I and L are more common than X and T
-                int typeNum = (int)Mathf.Floor(Mathf.Pow(Random.value, 2) * (4-(XTcounter/10)));
+				int typeNum = (int)Mathf.Floor(Mathf.Pow(Random.value, 2) * (4 - (XTcounter / 10)));
 				if (typeNum > 4) { typeNum = 4; }
-                TileTypes type = (TileTypes)typeNum;
-                switch (type)
-                {
-                    case TileTypes.L:
+				TileTypes type = (TileTypes)typeNum;
+				switch (type)
+				{
+					case TileTypes.L:
 						XTcounter -= .15f;
-                        connections.Add(3);
-                        connections.Add(2);
-                        break;
-                    case TileTypes.T:
+						connections.Add(3);
+						connections.Add(2);
+						break;
+					case TileTypes.T:
 						XTcounter++;
-                        connections.Add(0);
-                        connections.Add(3);
-                        connections.Add(2);
-                        break;
-                    case TileTypes.I:
+						connections.Add(0);
+						connections.Add(3);
+						connections.Add(2);
+						break;
+					case TileTypes.I:
 						XTcounter -= .15f;
 						connections.Add(0);
-                        connections.Add(2);
-                        break;
-                    case TileTypes.X:
+						connections.Add(2);
+						break;
+					case TileTypes.X:
 						XTcounter++;
-                        connections.Add(3);
-                        connections.Add(2);
-                        connections.Add(1);
-                        connections.Add(0);
-                        break;
-                    default:
-                        break;
-                }
+						connections.Add(3);
+						connections.Add(2);
+						connections.Add(1);
+						connections.Add(0);
+						break;
+					default:
+						break;
+				}
 				bool noRot = false;
-				if (Random.value < .05f)		//5% chance of tile being no rotation
+				if (Random.value < .05f)        //5% chance of tile being no rotation
 				{
 					noRot = true;
 				}
 
-                pathNodes[x, y] = new PathNode(connections);
-				//RotatePathNode(x, y, true);
-				pathNodes[x, y].Rotate(true);
-
+				pathNodes[x, y] = new PathNode(connections);
 				TileManager.Instance.AddTile(x, y, type, noRot);
-            }
+				//int rotations = Random.Range(0, 4);
+				//switch (rotations)
+				//{
+				//	case 0:
+				//		TileManager.Instance.AddTile(x, y, type, noRot);
+				//		break;
+				//	case 1:
+				//		StartCoroutine(TileManager.Instance.AddTile(x, y, type, noRot).RotateOverTime(true, 0.01f, 90));
+				//		break;
+				//	case 2:
+				//		StartCoroutine(TileManager.Instance.AddTile(x, y, type, noRot).RotateOverTime(true, 0.01f, 180));
+				//		break;
+				//	case 3:
+				//		StartCoroutine(TileManager.Instance.AddTile(x, y, type, noRot).RotateOverTime(true, 0.01f, 270));
+				//		break;
+				//}
+			}
         }
     }
 

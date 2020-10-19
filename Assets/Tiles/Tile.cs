@@ -90,7 +90,7 @@ public abstract class Tile : MonoBehaviour
     }
 
     //rotation coroutine
-    public IEnumerator RotateOverTime(bool isClockwise, float seconds)
+    public IEnumerator RotateOverTime(bool isClockwise, float seconds, int angle = 90)
     {
         isRotating = true;
 
@@ -108,8 +108,11 @@ public abstract class Tile : MonoBehaviour
         //ensure that the deired rotation is exactly reached
         transform.rotation = rotation;
 
-        //update backend
-        NodeManager.Instance.RotatePathNode(gridX, gridY, isClockwise);
+		//update backend
+		//for (int i = 0; i < (angle / 90); i++)
+		{
+			NodeManager.Instance.RotatePathNode(gridX, gridY, isClockwise);
+		}
 
         isRotating = false;
         if (queuedRotate)
@@ -117,7 +120,6 @@ public abstract class Tile : MonoBehaviour
             queuedRotate = false;
             StartCoroutine(RotateOverTime(isClockwise, seconds));
         }
-		Debug.Log("tile getting rotated");
 
         yield break;
     }
