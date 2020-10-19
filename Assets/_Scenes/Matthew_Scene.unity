@@ -280,6 +280,8 @@ MonoBehaviour:
   tileSize: 1
   tilePref: {fileID: 3199906270970288779, guid: 51e261995794bb24c8bf7024ac9713bf,
     type: 3}
+  noRotPref: {fileID: 4403477635583880067, guid: dee4924721c6c1946b6f2a198df232c5,
+    type: 3}
 --- !u!4 &1694780389
 Transform:
   m_ObjectHideFlags: 0

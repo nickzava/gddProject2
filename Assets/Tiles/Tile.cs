@@ -15,20 +15,14 @@ public enum FluidTypes
 public abstract class Tile : MonoBehaviour
 {
     [Header("Images")]
-    [SerializeField]
-    private List<Sprite> LImages;
-    [SerializeField]
-    private List<Sprite> TImages;
-    [SerializeField]
-    private List<Sprite> IImages;
-    [SerializeField]
-    private List<Sprite> XImages;
+    private static Dictionary<int,Sprite[]> fluids;
 
     //grid location of this tile
     public int gridX = 0;
     public int gridY = 0;
 
-    protected SpriteRenderer spriteRenderer;
+    protected SpriteRenderer baseRenderer;
+    protected SpriteRenderer fluidRenderer;
     public TileTypes mType;
 
     // Bool to track if tile is currently rotating
@@ -37,39 +31,62 @@ public abstract class Tile : MonoBehaviour
     protected bool queuedRotate;
 
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        baseRenderer = gameObject.GetComponent<SpriteRenderer>();
+        fluidRenderer = transform.Find("Fluid").GetComponent<SpriteRenderer>();
+        if(fluids == null)
+        {
+            const int MAX_ID = 3;
+            fluids = new Dictionary<int, Sprite[]>();
+            for(int i = 1; i <= MAX_ID; i++)
+            {
+                fluids.Add(i, Resources.LoadAll<Sprite>("Fluids/" + i.ToString()));
+            }
+        }
     }
 
-    public void Init(int x, int y, TileTypes type)
+    public virtual void Init(int x, int y, TileTypes type)
     {
         gridX = x;
         gridY = y;
         mType = type;
-        NodeManager.Instance.AddMethodToNodeEvent(x, y, SetPower);
-        SetPower(0);
+        NodeManager.Instance.AddMethodToNodeEvent(x, y, SetPath);
+        SetPath(0);
     }
 
-    public virtual void SetPower(int power)
+    public virtual void SetPath(int id)
     {
-        //if there is no image then use the last image in the array
-        power = power >= LImages.Count ? LImages.Count - 1 : power;
-        switch (mType)
+        bool rendering = id != 0;
+        fluidRenderer.enabled = rendering;
+        if(rendering)
+            fluidRenderer.sprite = GetSprite(mType,fluids[id]);
+    }
+
+    protected Sprite GetSprite(TileTypes type, in Sprite[] sprites)
+    {
+        string name ="";
+        switch (type)
         {
             case TileTypes.L:
-                spriteRenderer.sprite = LImages[power];
-                break;
-            case TileTypes.T:
-                spriteRenderer.sprite = TImages[power];
+                name = "l";
                 break;
             case TileTypes.I:
-                spriteRenderer.sprite = IImages[power];
+                name = "i";
+                break;
+            case TileTypes.T:
+                name = "t";
                 break;
             case TileTypes.X:
-                spriteRenderer.sprite = XImages[power];
+                name = "x";
                 break;
         }
+        for(int i = 0; i < sprites.Length; i++)
+        {
+            if (sprites[i].name == name)
+                return sprites[i];
+        }
+        return null;
     }
 
     //rotation coroutine

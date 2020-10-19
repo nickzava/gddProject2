@@ -8,10 +8,12 @@ using UnityEngine.Rendering;
 //visual representation of a PathNode
 public class NoRotTile : Tile
 {
+    private static Sprite[] noRotImages;
+
     // No rotate tile -> no functionality on click
     void OnClick(bool isLeftClick)
     {
-        Debug.Log("Tried to rotate no-rotate tile");
+
     }
 
     // Still has input in case we want visual feedback for the no rotate tile
@@ -29,11 +31,25 @@ public class NoRotTile : Tile
         }
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        if (noRotImages == null)
+        {
+            noRotImages = Resources.LoadAll<Sprite>("NoRotSprites");
+        }
+    }
 
-	//changes color of noRot tiles (commented out because it's hard to see the tint)
-	//public override void SetPower(int power)
-	//{
-	//	base.SetPower(power);
-	//	spriteRenderer.color = new Color(132, 132, 255, 255);
-	//}
+    public override void Init(int x, int y, TileTypes type)
+    {
+        base.Init(x, y, type);
+        baseRenderer.sprite = GetSprite(type, noRotImages);
+    }
+
+    //changes color of noRot tiles (commented out because it's hard to see the tint)
+    //public override void SetPower(int power)
+    //{
+    //	base.SetPower(power);
+    //	spriteRenderer.color = new Color(132, 132, 255, 255);
+    //}
 }

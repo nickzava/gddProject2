@@ -35,16 +35,17 @@ public class TileManager : MonoBehaviour
         //calculate location for new tile
         Vector3 location = new Vector3(x * tileSize - width/2 * tileSize, y * tileSize - height / 2 * tileSize,0);
 
-		//create new tile
-		Tile newTile;
+        //create new tile
+        Tile newTile;
+        GameObject newGo = Instantiate(tilePref, location, Quaternion.identity);
 		if (!noRot)
 		{
-			newTile = Instantiate(tilePref, location, Quaternion.identity).GetComponent<Tile>();
+			newTile = newGo.AddComponent<BaseTile>();
 		}
-		else	//if noRot is true, then a noRotPrefab is instantiated
-		{
-			newTile = Instantiate(noRotPref, location, Quaternion.identity).GetComponent<Tile>();
-		}
+		else    //if noRot is true, then a noRotPrefab is instantiated
+        {
+            newTile = newGo.AddComponent<NoRotTile>();
+        }
         newTile.Init(x, y, type);
 
         //add tile to data structures
