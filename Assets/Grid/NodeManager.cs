@@ -98,7 +98,6 @@ public class NodeManager : MonoBehaviour
 				pathNodes[x, y] = new PathNode(connections);
 				//TileManager.Instance.AddTile(x, y, type, noRot);
 				int rotations = Random.Range(0, 4);
-				Debug.Log(rotations);
 				switch (rotations)
 				{
 					case 0:
