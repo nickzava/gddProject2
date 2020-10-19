@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Base
+    uniqueID: 614743775
+    locked: 0
+  - name: Fluid
+    uniqueID: 4264918765
+    locked: 0
+  - name: Particles
+    uniqueID: 650206527
+    locked: 0
+  - name: Athame
+    uniqueID: 2593177461
+    locked: 0

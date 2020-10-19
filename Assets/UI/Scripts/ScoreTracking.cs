@@ -47,7 +47,6 @@ public class ScoreTracking : MonoBehaviour
         UpdateCurrentScore(nodeManager.paths, false);
         totalScoreValue.text = totalScore.ToString();
         levelScoreValue.text = levelScore.ToString();
-
     }
 
     /// <summary>
