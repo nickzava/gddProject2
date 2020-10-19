@@ -13,6 +13,7 @@ public class GameStates : MonoBehaviour
 	GameObject inLevel;		//holds in level UI buttons
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
+	Text requiredScore;
 	GameObject scoreCanvas;
 
 	public GameState StateToTransition;
@@ -21,6 +22,7 @@ public class GameStates : MonoBehaviour
 	public int height;
 	public string tutorialTextString;   //string to set tutorial text too
 	public int level;
+	public int scoreRequirement;
 
 	private void Awake()
 	{
@@ -29,6 +31,7 @@ public class GameStates : MonoBehaviour
 		inLevel = GameObject.Find("InLevel");										//in level UI container
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
+		requiredScore = GameObject.Find("RequiredScore").GetComponent<Text>();
 	}
 
 	// Start is called before the first frame update
@@ -70,6 +73,7 @@ public class GameStates : MonoBehaviour
 				TileManager.Instance.ClearTiles();
 				nodeManager.GenerateLevel(seed, width, height);
 				tutorialText.text = tutorialTextString;
+				requiredScore.text = "Required Score: " + scoreRequirement;
 				break;
 		}
 	}
