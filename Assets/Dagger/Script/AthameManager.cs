@@ -46,8 +46,8 @@ public class AthameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        daggerObj = Instantiate(dagger, new Vector3(0, 0, 0), Quaternion.identity);
-        shadowObj = Instantiate(shadow, new Vector3(0, 0, 0), Quaternion.identity);
+        daggerObj = Instantiate(dagger, new Vector3(0, 0, -1), Quaternion.identity);
+        shadowObj = Instantiate(shadow, new Vector3(0, 0, -1), Quaternion.identity);
         daggerTransform = daggerObj.GetComponent<Transform>().transform;
         shadowTransform = shadowObj.GetComponent<Transform>().transform;
         shadowTransform.Rotate(0, 0, 90);
@@ -114,8 +114,8 @@ public class AthameManager : MonoBehaviour
         daggerIsMoving = true;
         daggerObj.GetComponent<SpriteRenderer>().enabled = true;
         shadowObj.GetComponent<SpriteRenderer>().enabled = true;
-        daggerObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(NodeManager.Instance.GetNode(0, 0)).GetComponent<Transform>().position;
-        shadowObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(NodeManager.Instance.GetNode(0, 0)).GetComponent<Transform>().position;
+        daggerObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(NodeManager.Instance.GetNode(0, 0)).GetComponent<Transform>().position + new Vector3(0,0,-1);
+        shadowObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(NodeManager.Instance.GetNode(0, 0)).GetComponent<Transform>().position + new Vector3(0, 0, -1);
         longestPath = NodeManager.Instance.GetNode(0, 0).mPath.GetLongestSequenceInPath();
         SetDaggerDelta(longestPath.ElementAt(1));
     }
