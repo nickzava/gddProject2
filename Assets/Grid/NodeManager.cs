@@ -96,6 +96,9 @@ public class NodeManager : MonoBehaviour
 				}
 
                 pathNodes[x, y] = new PathNode(connections);
+				//RotatePathNode(x, y, true);
+				pathNodes[x, y].Rotate(true);
+
 				TileManager.Instance.AddTile(x, y, type, noRot);
             }
         }

@@ -30,7 +30,7 @@ public class TileManager : MonoBehaviour
         pathNodeToTile = new Dictionary<PathNode, Tile>();
     }
 
-    public void AddTile(int x, int y, TileTypes type, bool noRot)
+    public Tile AddTile(int x, int y, TileTypes type, bool noRot)
     {
         //calculate location for new tile
         Vector3 location = new Vector3(x * tileSize - width/2 * tileSize, y * tileSize - height / 2 * tileSize,0);
@@ -51,6 +51,8 @@ public class TileManager : MonoBehaviour
         //add tile to data structures
         tiles[x, y] = newTile;
         pathNodeToTile.Add(NodeManager.Instance.GetNode(x, y), newTile);
+
+		return newTile;
     }
 
 	//clears all tiles

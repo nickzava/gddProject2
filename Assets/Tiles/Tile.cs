@@ -90,7 +90,7 @@ public abstract class Tile : MonoBehaviour
     }
 
     //rotation coroutine
-    protected IEnumerator RotateOverTime(bool isClockwise, float seconds)
+    public IEnumerator RotateOverTime(bool isClockwise, float seconds)
     {
         isRotating = true;
 
@@ -117,6 +117,8 @@ public abstract class Tile : MonoBehaviour
             queuedRotate = false;
             StartCoroutine(RotateOverTime(isClockwise, seconds));
         }
+		Debug.Log("tile getting rotated");
+
         yield break;
     }
 }

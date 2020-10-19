@@ -29,7 +29,6 @@ public class GameStates : MonoBehaviour
 		inLevel = GameObject.Find("InLevel");										//in level UI container
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
-		scoreCanvas = GameObject.Find("ScoreCanvas");
 	}
 
 	// Start is called before the first frame update
