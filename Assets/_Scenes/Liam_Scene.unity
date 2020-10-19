@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateToTransition: 2
-  seed: 68
+  seed: 236
   width: 5
   height: 5
   tutorialTextString: 'Tip: Tinted tiles cannot be rotated'
@@ -1559,7 +1559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateToTransition: 2
-  seed: 455
+  seed: 456
   width: 10
   height: 10
   tutorialTextString: 
@@ -1857,7 +1857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateToTransition: 2
-  seed: 78
+  seed: 42
   width: 3
   height: 3
   tutorialTextString: 'Tip: Use left click and right click to rotate the tiles'
