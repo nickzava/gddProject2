@@ -12,27 +12,35 @@ public class ScoreTracking : MonoBehaviour
     public NodeManager nodeManager;
     public Button endButton;
 
-    int levelScore = 0; //Current level score
+    public int levelScore = 0; //Current level score
     int totalScore = 0; //Total Score
+	public int requiredScore; //score required to pass level
     const int BASE_SCORE = 250;
     // Start is called before the first frame update
     void Start()
     {
-        
+		onGUI();
     }
 
     // Update is called once per frame
     void Update()
     {
-        onGUI();
+        //onGUI();
+		if (levelScore >= requiredScore)
+		{
+			endButton.interactable = true;
+		}
+		else
+		{
+			endButton.interactable = false;
+		}
     }
 
     /// <summary>
     /// Updates all GUI Elements
     /// </summary>
-    void onGUI()
+    public void onGUI()
     {
-        
         totalScoreLabel.text = "Total Score:";
         levelScoreLabel.text = "Level Score:";
 
@@ -80,5 +88,10 @@ public class ScoreTracking : MonoBehaviour
     {
         totalScore += levelScore;
         levelScore = 0;
+
+		for (int i = 0; i < nodeManager.paths.Count; i++)
+		{
+			nodeManager.RemovePath(nodeManager.paths[i]);
+		}
     }
 }

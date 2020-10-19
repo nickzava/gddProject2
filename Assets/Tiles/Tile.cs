@@ -96,7 +96,7 @@ public abstract class Tile : MonoBehaviour
 
         float secondsElapsed = 0;
         Quaternion initalRotation = transform.rotation;
-        Quaternion rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, 0, 90 * (isClockwise ? 1 : -1)));
+        Quaternion rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, 0, angle * (isClockwise ? 1 : -1)));
 
         while (secondsElapsed < seconds)
         {
@@ -109,7 +109,7 @@ public abstract class Tile : MonoBehaviour
         transform.rotation = rotation;
 
 		//update backend
-		//for (int i = 0; i < (angle / 90); i++)
+		for (int i = 0; i < (angle / 90); i++)
 		{
 			NodeManager.Instance.RotatePathNode(gridX, gridY, isClockwise);
 		}

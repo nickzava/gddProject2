@@ -10,12 +10,14 @@ public class NextLevel : MonoBehaviour
 	GameObject levelSelect; //holds level select UI buttons
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
+	GameObject uiMan;
 
 	private void Awake()
 	{
 		levelSelect = GameObject.Find("LevelSelect");
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
+		uiMan = GameObject.Find("uiMan");
 	}
 
 	// Start is called before the first frame update
@@ -43,6 +45,9 @@ public class NextLevel : MonoBehaviour
 		nodeManager.GenerateLevel(nextLevelValues.seed, nextLevelValues.width, nextLevelValues.height);
 		tutorialText.text = nextLevelValues.tutorialTextString;
 		level = nextLevelValues.level;
+		uiMan.GetComponent<ScoreTracking>().levelScore = 0;
+		//uiMan.GetComponent<ScoreTracking>().LevelEnd();
+		Debug.Log("back to level select");
 
 		if (level == maxLevel)
 		{

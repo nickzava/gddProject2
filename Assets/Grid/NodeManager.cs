@@ -96,23 +96,24 @@ public class NodeManager : MonoBehaviour
 				}
 
 				pathNodes[x, y] = new PathNode(connections);
-				TileManager.Instance.AddTile(x, y, type, noRot);
-				//int rotations = Random.Range(0, 4);
-				//switch (rotations)
-				//{
-				//	case 0:
-				//		TileManager.Instance.AddTile(x, y, type, noRot);
-				//		break;
-				//	case 1:
-				//		StartCoroutine(TileManager.Instance.AddTile(x, y, type, noRot).RotateOverTime(true, 0.01f, 90));
-				//		break;
-				//	case 2:
-				//		StartCoroutine(TileManager.Instance.AddTile(x, y, type, noRot).RotateOverTime(true, 0.01f, 180));
-				//		break;
-				//	case 3:
-				//		StartCoroutine(TileManager.Instance.AddTile(x, y, type, noRot).RotateOverTime(true, 0.01f, 270));
-				//		break;
-				//}
+				//TileManager.Instance.AddTile(x, y, type, noRot);
+				int rotations = Random.Range(0, 4);
+				Debug.Log(rotations);
+				switch (rotations)
+				{
+					case 0:
+						TileManager.Instance.AddTile(x, y, type, noRot);
+						break;
+					case 1:
+						StartCoroutine(TileManager.Instance.AddTile(x, y, type, noRot).RotateOverTime(true, 0.01f, 90));
+						break;
+					case 2:
+						StartCoroutine(TileManager.Instance.AddTile(x, y, type, noRot).RotateOverTime(true, 0.01f, 180));
+						break;
+					case 3:
+						StartCoroutine(TileManager.Instance.AddTile(x, y, type, noRot).RotateOverTime(true, 0.01f, 270));
+						break;
+				}
 			}
         }
     }

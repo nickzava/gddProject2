@@ -1080,7 +1080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateToTransition: 2
-  seed: 456
+  seed: 536
   width: 10
   height: 10
   tutorialTextString: 
@@ -1493,6 +1493,8 @@ MonoBehaviour:
   totalScoreValue: {fileID: 973894061}
   nodeManager: {fileID: 1206358756}
   endButton: {fileID: 1701982801}
+  levelScore: 0
+  requiredScore: 0
 --- !u!4 &723276939
 Transform:
   m_ObjectHideFlags: 0

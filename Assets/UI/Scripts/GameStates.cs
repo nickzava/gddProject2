@@ -14,7 +14,7 @@ public class GameStates : MonoBehaviour
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
 	Text requiredScore;
-	GameObject scoreCanvas;
+	GameObject uiMan;
 
 	public GameState StateToTransition;
 	public int seed;
@@ -32,6 +32,7 @@ public class GameStates : MonoBehaviour
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
 		requiredScore = GameObject.Find("RequiredScore").GetComponent<Text>();
+		uiMan = GameObject.Find("uiMan");
 	}
 
 	// Start is called before the first frame update
@@ -65,6 +66,9 @@ public class GameStates : MonoBehaviour
 				levelSelect.SetActive(true);
 				inLevel.SetActive(false);
 				TileManager.Instance.ClearTiles();
+				uiMan.GetComponent<ScoreTracking>().levelScore = 0;
+				//uiMan.GetComponent<ScoreTracking>().LevelEnd();
+				Debug.Log("back to level select");
 				break;
 			case GameState.InLevel:
 				mainMenu.SetActive(false);
@@ -74,6 +78,7 @@ public class GameStates : MonoBehaviour
 				nodeManager.GenerateLevel(seed, width, height);
 				tutorialText.text = tutorialTextString;
 				requiredScore.text = "Required Score: " + scoreRequirement;
+				uiMan.GetComponent<ScoreTracking>().requiredScore = scoreRequirement;
 				break;
 		}
 	}
