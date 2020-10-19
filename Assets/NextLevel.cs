@@ -45,9 +45,9 @@ public class NextLevel : MonoBehaviour
 		nodeManager.GenerateLevel(nextLevelValues.seed, nextLevelValues.width, nextLevelValues.height);
 		tutorialText.text = nextLevelValues.tutorialTextString;
 		level = nextLevelValues.level;
-		uiMan.GetComponent<ScoreTracking>().levelScore = 0;
-		//uiMan.GetComponent<ScoreTracking>().LevelEnd();
-		Debug.Log("back to level select");
+
+		//uiMan.GetComponent<ScoreTracking>().levelScore = 0;
+		uiMan.GetComponent<ScoreTracking>().LevelEnd();
 
 		if (level == maxLevel)
 		{

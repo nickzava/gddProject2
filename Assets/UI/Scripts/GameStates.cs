@@ -66,9 +66,8 @@ public class GameStates : MonoBehaviour
 				levelSelect.SetActive(true);
 				inLevel.SetActive(false);
 				TileManager.Instance.ClearTiles();
-				uiMan.GetComponent<ScoreTracking>().levelScore = 0;
-				//uiMan.GetComponent<ScoreTracking>().LevelEnd();
-				Debug.Log("back to level select");
+				//uiMan.GetComponent<ScoreTracking>().levelScore = 0;
+				uiMan.GetComponent<ScoreTracking>().LevelEnd();
 				break;
 			case GameState.InLevel:
 				mainMenu.SetActive(false);

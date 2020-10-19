@@ -19,7 +19,7 @@ public class ScoreTracking : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		onGUI();
+		onGUI(true);
     }
 
     // Update is called once per frame
@@ -39,12 +39,14 @@ public class ScoreTracking : MonoBehaviour
     /// <summary>
     /// Updates all GUI Elements
     /// </summary>
-    public void onGUI()
+    public void onGUI(bool updateScore)
     {
         totalScoreLabel.text = "Total Score:";
         levelScoreLabel.text = "Level Score:";
-
-        UpdateCurrentScore(nodeManager.paths, false);
+		if (updateScore)
+		{
+			UpdateCurrentScore(nodeManager.paths, false);
+		}
         totalScoreValue.text = totalScore.ToString();
         levelScoreValue.text = levelScore.ToString();
     }
@@ -87,10 +89,10 @@ public class ScoreTracking : MonoBehaviour
     {
         totalScore += levelScore;
         levelScore = 0;
-
-		for (int i = 0; i < nodeManager.paths.Count; i++)
-		{
-			nodeManager.RemovePath(nodeManager.paths[i]);
-		}
+		onGUI(false);
+		//for (int i = 0; i < nodeManager.paths.Count; i++)
+		//{
+		//	nodeManager.RemovePath(nodeManager.paths[i]);
+		//}
     }
 }
