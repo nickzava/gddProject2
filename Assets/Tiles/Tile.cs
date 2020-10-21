@@ -30,12 +30,16 @@ public abstract class Tile : MonoBehaviour
     // Is true if user double clicks on a tile
     protected bool queuedRotate;
 
+    protected ScoreTracking uiMan;
+
     // Start is called before the first frame update
     protected virtual void Awake()
     {
         baseRenderer = gameObject.GetComponent<SpriteRenderer>();
         fluidRenderer = transform.Find("Fluid").GetComponent<SpriteRenderer>();
-        if(fluids == null)
+        uiMan = GameObject.Find("uiMan").GetComponent<ScoreTracking>();
+
+        if (fluids == null)
         {
             const int MAX_ID = 3;
             fluids = new Dictionary<int, Sprite[]>();
@@ -119,6 +123,10 @@ public abstract class Tile : MonoBehaviour
         {
             queuedRotate = false;
             StartCoroutine(RotateOverTime(isClockwise, seconds));
+        }
+        else
+        {
+            uiMan.onGUI(true);
         }
 
         yield break;

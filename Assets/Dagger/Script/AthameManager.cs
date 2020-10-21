@@ -14,6 +14,7 @@ public class AthameManager : MonoBehaviour
     public bool isRaised = false;
     private bool previousIsRaised = false;
     private bool raiseDagger = false;
+
     //directions: 
     //0 - Left
     //1 - Up
@@ -116,7 +117,15 @@ public class AthameManager : MonoBehaviour
         shadowObj.GetComponent<SpriteRenderer>().enabled = true;
         daggerObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(NodeManager.Instance.GetNode(0, 0)).GetComponent<Transform>().position + new Vector3(0,0,-1);
         shadowObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(NodeManager.Instance.GetNode(0, 0)).GetComponent<Transform>().position + new Vector3(0, 0, -1);
-        longestPath = NodeManager.Instance.GetNode(0, 0).mPath.GetLongestSequenceInPath();
+
+        //get longest path
+        longestPath = null;
+        foreach(Path p in NodeManager.Instance.paths)
+        {
+            var pathToCheck = p.GetLongestSequenceInPath();
+            if (longestPath == null || pathToCheck.Count > longestPath.Count)
+                longestPath = pathToCheck;
+        }
         SetDaggerDelta(longestPath.ElementAt(1));
     }
 

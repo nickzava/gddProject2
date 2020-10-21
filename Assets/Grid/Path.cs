@@ -12,7 +12,7 @@ public class Path
     //nodes connected to base paths that feed into this path
     //only needed for second level paths
     public List<Path> dependancies;
-    
+
     public int id { get; private set; }
     public int Count { get { return mNodes?.Count ?? 0; } }
 
@@ -96,6 +96,7 @@ public class Path
                     collisions.Add(node);
                     newPathDependancies.Add(new List<Path> { this, node.mPath });
                 }
+                AddNodeToPath(node);
                 return;
             }
             AddNodeToPath(node);

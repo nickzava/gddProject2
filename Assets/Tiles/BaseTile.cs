@@ -14,7 +14,6 @@ public class BaseTile : Tile
     // Will not activate if the rotate coroutine is currently active
 
     private static Sprite[] baseImages;
-	ScoreTracking uiMan;
 
 
 	protected override void Awake()
@@ -24,7 +23,6 @@ public class BaseTile : Tile
         {
             baseImages = Resources.LoadAll<Sprite>("BaseSprites");
         }
-		uiMan = GameObject.Find("uiMan").GetComponent<ScoreTracking>();
 	}
 
     public override void Init(int x, int y, TileTypes type)
@@ -38,7 +36,6 @@ public class BaseTile : Tile
         if (!isRotating)
         {
             StartCoroutine(RotateOverTime(isLeftClick, 0.15f));
-			uiMan.onGUI(true);
         }
         else
         {

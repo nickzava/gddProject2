@@ -65,7 +65,7 @@ public class ScoreTracking : MonoBehaviour
         {
 
             spellStrength = paths[i].id;
-            pathLength = paths[i].GetLongestSequenceInPath().Count;
+            pathLength = paths[i].Count;
             //If the spell are a level one spell (paths 1 and 2) set the multiplier to 1
             if (spellStrength == 1 || spellStrength == 2)
             {
@@ -75,6 +75,10 @@ public class ScoreTracking : MonoBehaviour
             else if (spellStrength == 3)
             {
                 spellStrength = 2;
+            }
+            else
+            {
+                Debug.Log("this is where the code breaks");
             }
             levelScore += BASE_SCORE * (spellStrength * pathLength);
             if (bonusConnected)
