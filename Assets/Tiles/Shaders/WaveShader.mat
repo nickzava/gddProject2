@@ -19,6 +19,22 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
+    m_TexEnvs:
+    - Texture2D_A4D5FD4A:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_342B98A2: 4
+    - Vector1_77EA5D65: 0.2
+    - Vector1_8358C04: 0.12
+    - Vector1_8959036B: 0.25
+    - Vector1_CF7E642E: 4.08
+    - Vector1_EDA99E2F: 0.15
+    m_Colors:
+    - Vector2_2CFE7929: {r: 1, g: -1, b: 0, a: 0}
+    - Vector2_957E384E: {r: -1, g: 1, b: 0, a: 0}
