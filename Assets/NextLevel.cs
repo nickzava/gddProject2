@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class NextLevel : MonoBehaviour
 {
 	private int level = 1;
-	private int maxLevel = 3;
+	private int maxLevel = 5;
 	GameObject levelSelect; //holds level select UI buttons
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
