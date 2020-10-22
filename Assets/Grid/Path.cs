@@ -117,6 +117,7 @@ public class Path
         {
             PathNode GetNearestCombinePoint(PathNode searchStart)
             {
+                //null error
                 bool IsCombinePoint(PathNode toCheck)
                 {
                     return (toCheck.directions.Count > 2 &&
