@@ -16,6 +16,7 @@ public class GameStates : MonoBehaviour
 	GameObject uiMan;
 	NextLevel nextLevel;
 	AudioSource soundEffect;
+	TableDraw table;
 
 	public GameState StateToTransition;
 	public int seed;
@@ -34,8 +35,7 @@ public class GameStates : MonoBehaviour
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
 		uiMan = GameObject.Find("uiMan");
-		nextLevel = GameObject.Find("NextLevel").GetComponent<NextLevel>();
-		soundEffect = GetComponent<AudioSource>();
+		table = GameObject.Find("TableIMG").GetComponent<TableDraw>();
 	}
 
 	// Start is called before the first frame update
@@ -45,6 +45,7 @@ public class GameStates : MonoBehaviour
 		{
 			levelSelect.SetActive(false);
 			inLevel.SetActive(false);
+			table.DisabeTable();
 		}
 
 		if (locked)
@@ -68,6 +69,7 @@ public class GameStates : MonoBehaviour
 				mainMenu.SetActive(true);
 				levelSelect.SetActive(false);
 				inLevel.SetActive(false);
+				table.DisabeTable();
 				break;
 			case GameState.LevelSelect:
 				mainMenu.SetActive(false);
@@ -75,6 +77,7 @@ public class GameStates : MonoBehaviour
 				inLevel.SetActive(false);
 				TileManager.Instance.ClearTiles();
 				uiMan.GetComponent<ScoreTracking>().LevelEnd();
+				table.DisabeTable();
 				break;
 			case GameState.InLevel:
 				mainMenu.SetActive(false);
@@ -82,6 +85,7 @@ public class GameStates : MonoBehaviour
 				inLevel.SetActive(true);
 				TileManager.Instance.ClearTiles();
 				nodeManager.GenerateLevel(seed, width, height);
+				table.DrawTable(width, height);
 				tutorialText.text = tutorialTextString;
 				uiMan.GetComponent<ScoreTracking>().requiredScore = scoreRequirement;
 				nextLevel.level = level;

@@ -33,9 +33,10 @@ Material:
     - Vector1_77EA5D65: 0.2
     - Vector1_8358C04: 0.12
     - Vector1_8959036B: 0.25
-    - Vector1_C5C0CB4C: 19.6
+    - Vector1_C5C0CB4C: 12.66
     - Vector1_CF7E642E: 4.08
     - Vector1_EDA99E2F: 4
+    - _CustomTime: 41.449272
     m_Colors:
     - Vector2_2CFE7929: {r: 1, g: -1, b: 0, a: 0}
     - Vector2_957E384E: {r: -1, g: 1, b: 0, a: 0}

@@ -43,6 +43,32 @@ public class ScoreTracking : MonoBehaviour
     /// </summary>
     public void onGUI(bool updateScore)
     {
+        //check(level score / required score) to get easy to understand numbers that work on any level
+        if (requiredScore != 0)
+        {
+            //Debug.Log(levelScore / requiredScore);
+            if (levelScore / requiredScore < 1)
+            {
+                //Insufficient
+                //Debug.Log("insufficient score");
+            }
+            else if (levelScore / requiredScore < 1.3)
+            {
+                //bare minimum pass
+                //Debug.Log("bare minimum score");
+            }
+            else if (levelScore / requiredScore < 1.6)
+            {
+                //better
+                //Debug.Log("Above and beyond score");
+            }
+            else
+            {
+                //Best+
+                //Debug.Log("Extremely high score");
+            }
+        }
+
         totalScoreLabel.text = "Total Score:";
         levelScoreLabel.text = "Level Score:";
 		if (updateScore)
@@ -52,6 +78,8 @@ public class ScoreTracking : MonoBehaviour
 
         totalScoreValue.text = requiredScore.ToString();
         levelScoreValue.text = levelScore.ToString();
+
+        LevelProgressBar.Percentage = Mathf.Min(levelScore / requiredScore, 1);
     }
 
     /// <summary>
