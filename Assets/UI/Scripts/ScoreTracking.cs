@@ -79,7 +79,7 @@ public class ScoreTracking : MonoBehaviour
         totalScoreValue.text = requiredScore.ToString();
         levelScoreValue.text = levelScore.ToString();
 
-        LevelProgressBar.Percentage = Mathf.Min(levelScore / requiredScore, 1);
+        LevelProgressBar.Percentage = Mathf.Min((float)levelScore / requiredScore, 1);
     }
 
     /// <summary>

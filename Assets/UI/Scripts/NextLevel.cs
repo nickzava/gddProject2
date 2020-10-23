@@ -65,7 +65,7 @@ public class NextLevel : MonoBehaviour
 		//getting next level and unlocking it
 		string levelString = "Level" + (level + 1);
 		levelSelect.SetActive(true);
-		GameObject.Find(levelString).GetComponent<Button>().interactable = true;
+		GameObject.Find(levelString).GetComponent<GameStates>().SetChains(true);
 		levelSelect.SetActive(false);
 
 		//enabling next level button

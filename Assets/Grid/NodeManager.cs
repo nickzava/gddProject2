@@ -132,10 +132,13 @@ public class NodeManager : MonoBehaviour
     }
 
     //initalizes paths
-    void PathInit()
+    void PathInit(bool secondFluid = true)
     {
         AddPath(1,GetNode(0, 0));
-        AddPath(2, GetNode(width - 1, height - 1));
+        if (secondFluid)
+        {
+            AddPath(2, GetNode(width - 1, height - 1));
+        }
     }
 
     //adds a new path
@@ -343,7 +346,7 @@ public class NodeManager : MonoBehaviour
     }
 
 	//Generate level with given seed, width, and height
-	public void GenerateLevel(int _seed, int _width, int _height)
+	public void GenerateLevel(int _seed, int _width, int _height, bool secondFluid = true)
 	{
 		seed = _seed;
 		width = _width;
@@ -352,6 +355,6 @@ public class NodeManager : MonoBehaviour
 
 		GridInit();
 		NodeInit();
-		PathInit();
+		PathInit(secondFluid);
 	}
 }

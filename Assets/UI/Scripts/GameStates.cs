@@ -17,6 +17,8 @@ public class GameStates : MonoBehaviour
 	NextLevel nextLevel;
 	AudioSource soundEffect;
 	TableDraw table;
+	Image chain1;
+	Image chain2;
 
 	public GameState StateToTransition;
 	public int seed;
@@ -25,7 +27,8 @@ public class GameStates : MonoBehaviour
 	public string tutorialTextString;   //string to set tutorial text too
 	public int level;
 	public int scoreRequirement;
-	public bool locked;		//true if level is locked
+	public bool locked;     //true if level is locked
+	public bool secondFluid = true;
 
 	private void Awake()
 	{
@@ -36,6 +39,17 @@ public class GameStates : MonoBehaviour
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
 		uiMan = GameObject.Find("uiMan");
 		table = GameObject.Find("TableIMG").GetComponent<TableDraw>();
+		//set chain values
+		var temp = transform.Find("LeftChain");
+		if (temp != null)
+		{
+			chain1 = temp.GetComponent<Image>();
+		}
+		temp = transform.Find("RightChain");
+		if (temp != null)
+		{
+			chain2 = temp.GetComponent<Image>();
+		}
 	}
 
 	// Start is called before the first frame update
@@ -43,15 +57,12 @@ public class GameStates : MonoBehaviour
     {
 		if (gameObject.name == "MainMenuButton")
 		{
-			levelSelect.SetActive(false);
-			inLevel.SetActive(false);
+			levelSelect.SetActive(true);
+			inLevel.SetActive(true);
 			table.DisabeTable();
+			return;
 		}
-
-		if (locked)
-		{
-			GetComponent<Button>().interactable = false;
-		}
+		SetChains(locked);
 	}
 
     // Update is called once per frame
@@ -84,7 +95,7 @@ public class GameStates : MonoBehaviour
 				levelSelect.SetActive(false);
 				inLevel.SetActive(true);
 				TileManager.Instance.ClearTiles();
-				nodeManager.GenerateLevel(seed, width, height);
+				nodeManager.GenerateLevel(seed, width, height, secondFluid);
 				table.DrawTable(width, height);
 				tutorialText.text = tutorialTextString;
 				uiMan.GetComponent<ScoreTracking>().requiredScore = scoreRequirement;
@@ -97,5 +108,19 @@ public class GameStates : MonoBehaviour
 	{
 		soundEffect.Play();
 		Debug.Log("sound effect played");
+	}
+
+	public void SetChains(bool visable)
+	{
+		if (chain1 != null)
+		{
+			chain1.enabled = visable;
+		}
+		if (chain2 != null)
+		{
+			chain2.enabled = visable;
+		}
+
+		GetComponent<Button>().interactable = !visable;
 	}
 }
