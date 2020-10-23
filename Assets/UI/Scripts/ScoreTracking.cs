@@ -29,8 +29,7 @@ public class ScoreTracking : MonoBehaviour
     {
         //onGUI();
 		if (levelScore >= requiredScore)
-		{
-            
+		{            
 			endButton.interactable = true;
 		}
 		else
@@ -77,7 +76,7 @@ public class ScoreTracking : MonoBehaviour
 			UpdateCurrentScore(nodeManager.paths, false);
 		}
 
-        totalScoreValue.text = totalScore.ToString();
+        totalScoreValue.text = requiredScore.ToString();
         levelScoreValue.text = levelScore.ToString();
 
         LevelProgressBar.Percentage = Mathf.Min(levelScore / requiredScore, 1);
