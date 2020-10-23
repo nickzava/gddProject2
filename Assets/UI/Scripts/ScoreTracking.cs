@@ -12,6 +12,8 @@ public class ScoreTracking : MonoBehaviour
     public NodeManager nodeManager;
     public Button endButton;
 
+
+
     public int levelScore = 0; //Current level score
     int totalScore = 0; //Total Score
 	public int requiredScore; //score required to pass level
@@ -28,6 +30,7 @@ public class ScoreTracking : MonoBehaviour
         //onGUI();
 		if (levelScore >= requiredScore)
 		{
+            
 			endButton.interactable = true;
 		}
 		else
@@ -47,6 +50,7 @@ public class ScoreTracking : MonoBehaviour
 		{
 			UpdateCurrentScore(nodeManager.paths, false);
 		}
+
         totalScoreValue.text = totalScore.ToString();
         levelScoreValue.text = levelScore.ToString();
     }
