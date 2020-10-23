@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class NextLevel : MonoBehaviour
 {
 	public int level;
-	private int maxLevel = 5;
+	private int maxLevel = 7;
 	GameObject levelSelect; //holds level select UI buttons
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
@@ -44,7 +44,7 @@ public class NextLevel : MonoBehaviour
 		GetComponent<Button>().interactable = false;
 
 		TileManager.Instance.ClearTiles();
-		nodeManager.GenerateLevel(nextLevelValues.seed, nextLevelValues.width, nextLevelValues.height);
+		nodeManager.GenerateLevel(nextLevelValues.seed, nextLevelValues.width, nextLevelValues.height, nextLevelValues.secondFluid, nextLevelValues.noRotation);
 		tutorialText.text = nextLevelValues.tutorialTextString;
 		level = nextLevelValues.level;
 		table.DrawTable(nextLevelValues.width, nextLevelValues.height);
@@ -65,10 +65,11 @@ public class NextLevel : MonoBehaviour
 		//getting next level and unlocking it
 		string levelString = "Level" + (level + 1);
 		levelSelect.SetActive(true);
-		GameObject.Find(levelString).GetComponent<GameStates>().SetChains(true);
+		GameObject.Find(levelString).GetComponent<GameStates>().SetChains(false);
 		levelSelect.SetActive(false);
 
 		//enabling next level button
 		GetComponent<Button>().interactable = true;
+
 	}
 }

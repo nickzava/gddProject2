@@ -28,7 +28,8 @@ public class GameStates : MonoBehaviour
 	public int level;
 	public int scoreRequirement;
 	public bool locked;     //true if level is locked
-	public bool secondFluid = true;
+	public bool secondFluid;
+	public bool noRotation; //if true, level will generate non-rotatable tiles
 
 	private void Awake()
 	{
@@ -57,8 +58,8 @@ public class GameStates : MonoBehaviour
     {
 		if (gameObject.name == "MainMenuButton")
 		{
-			levelSelect.SetActive(true);
-			inLevel.SetActive(true);
+			levelSelect.SetActive(false);
+			inLevel.SetActive(false);
 			table.DisabeTable();
 			return;
 		}
@@ -95,7 +96,7 @@ public class GameStates : MonoBehaviour
 				levelSelect.SetActive(false);
 				inLevel.SetActive(true);
 				TileManager.Instance.ClearTiles();
-				nodeManager.GenerateLevel(seed, width, height, secondFluid);
+				nodeManager.GenerateLevel(seed, width, height, secondFluid, noRotation);
 				table.DrawTable(width, height);
 				tutorialText.text = tutorialTextString;
 				uiMan.GetComponent<ScoreTracking>().requiredScore = scoreRequirement;

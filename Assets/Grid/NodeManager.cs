@@ -40,14 +40,15 @@ public class NodeManager : MonoBehaviour
     {
 		if (generateLevelOnStart)
 		{
-			GridInit();
+			GridInit(true);
 			NodeInit();
 			PathInit();
 		}
     }
 
     //creates a grid of path nodes
-    void GridInit()
+	//if noRotation true then level will generate with non-rotatable tiles
+    void GridInit(bool noRotation)
     {
 		float XTcounter = 0;		//adjusts spawn rate of X and T based on how many already spawned
 
@@ -90,9 +91,12 @@ public class NodeManager : MonoBehaviour
 						break;
 				}
 				bool noRot = false;
-				if (Random.value < .05f)        //5% chance of tile being no rotation
+				if (noRotation)
 				{
-					noRot = true;
+					if (Random.value < .08f)        //5% chance of tile being no rotation
+					{
+						noRot = true;
+					}
 				}
 
 				pathNodes[x, y] = new PathNode(connections);
@@ -346,14 +350,14 @@ public class NodeManager : MonoBehaviour
     }
 
 	//Generate level with given seed, width, and height
-	public void GenerateLevel(int _seed, int _width, int _height, bool secondFluid = true)
+	public void GenerateLevel(int _seed, int _width, int _height, bool secondFluid, bool noRotation)
 	{
 		seed = _seed;
 		width = _width;
 		height = _height;
 		TileManager.Instance.SetWidthHeight(_width, _height);
 
-		GridInit();
+		GridInit(noRotation);
 		NodeInit();
 		PathInit(secondFluid);
 	}
