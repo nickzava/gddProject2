@@ -11,6 +11,7 @@ public class NextLevel : MonoBehaviour
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
 	GameObject uiMan;
+	TableDraw table;
 
 	private void Awake()
 	{
@@ -18,6 +19,7 @@ public class NextLevel : MonoBehaviour
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
 		uiMan = GameObject.Find("uiMan");
+		table = GameObject.Find("TableIMG").GetComponent<TableDraw>();
 	}
 
 	// Start is called before the first frame update
@@ -45,6 +47,7 @@ public class NextLevel : MonoBehaviour
 		nodeManager.GenerateLevel(nextLevelValues.seed, nextLevelValues.width, nextLevelValues.height);
 		tutorialText.text = nextLevelValues.tutorialTextString;
 		level = nextLevelValues.level;
+		table.DrawTable(nextLevelValues.width, nextLevelValues.height);
 
 		uiMan.GetComponent<ScoreTracking>().LevelEnd();
 

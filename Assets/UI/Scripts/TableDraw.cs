@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TableDraw : MonoBehaviour
 {
-    private float tileDimension = 60;
+    private float tileDimension = 1;
     private void Awake()
     {
         // Dont enable, buttons take care of this
