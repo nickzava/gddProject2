@@ -29,7 +29,7 @@ public class LevelProgressBar : MonoBehaviour
     {
         time += Time.deltaTime;
         material.SetFloat("_CustomTime", time);
-        Debug.Log(material.GetFloat("_CustomTime"));
+        //Debug.Log(material.GetFloat("_CustomTime"));
     }
 
     public static float Percentage
