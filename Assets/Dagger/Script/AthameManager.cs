@@ -37,6 +37,7 @@ public class AthameManager : MonoBehaviour
     public Sprite downDagger;
 
     private bool daggerIsMoving = false;
+	private bool soundIsPlaying = false;
 
     private LinkedList<PathNode> longestPath;
 
@@ -121,6 +122,18 @@ public class AthameManager : MonoBehaviour
                 }
             }
         }
+
+		//athame dragging sound
+		if (daggerIsMoving && !soundIsPlaying)	//starts if dagger moving and sound not started yet
+		{
+			GetComponent<AudioSource>().Play();
+			soundIsPlaying = true;
+		}
+		else if (!daggerIsMoving && soundIsPlaying)		//stops if dagger has stopped and sound still playing
+		{
+			GetComponent<AudioSource>().Stop();
+			soundIsPlaying = false;
+		}
     }
 
 

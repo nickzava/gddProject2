@@ -94,9 +94,5 @@ public class ScoreTracking : MonoBehaviour
         totalScore += levelScore;
         levelScore = 0;
 		onGUI(false);
-		//for (int i = 0; i < nodeManager.paths.Count; i++)
-		//{
-		//	nodeManager.RemovePath(nodeManager.paths[i]);
-		//}
     }
 }

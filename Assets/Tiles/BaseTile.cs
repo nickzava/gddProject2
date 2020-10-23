@@ -14,7 +14,7 @@ public class BaseTile : Tile
     // Will not activate if the rotate coroutine is currently active
 
     private static Sprite[] baseImages;
-
+	private AudioSource soundEffect;
 
 	protected override void Awake()
     {
@@ -23,6 +23,7 @@ public class BaseTile : Tile
         {
             baseImages = Resources.LoadAll<Sprite>("BaseSprites");
         }
+		soundEffect = GetComponent<AudioSource>();
 	}
 
     public override void Init(int x, int y, TileTypes type)
@@ -41,7 +42,9 @@ public class BaseTile : Tile
         {
             queuedRotate = true;
         }
-    }
+
+		soundEffect.Play();
+	}
 
     // Handles input while mouse is hovering on the tile
     private void OnMouseOver()
