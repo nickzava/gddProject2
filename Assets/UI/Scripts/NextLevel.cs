@@ -51,7 +51,7 @@ public class NextLevel : MonoBehaviour
 
 		uiMan.GetComponent<ScoreTracking>().LevelEnd();
 
-		Debug.Log(uiMan.GetComponent<ScoreTracking>().requiredScore);
+		uiMan.GetComponent<ScoreTracking>().requiredScore = nextLevelValues.scoreRequirement;
 
 		//if (level == maxLevel)
 		//{
