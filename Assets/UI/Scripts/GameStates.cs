@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameStates : MonoBehaviour
 {
 
-	public enum GameState { MainMenu, LevelSelect, InLevel }
+	public enum GameState { MainMenu, LevelSelect, InLevel, Credits, Exit }
 
 	GameObject mainMenu;    //holds main menu UI buttons
 	GameObject levelSelect; //holds level select UI buttons
@@ -101,6 +101,11 @@ public class GameStates : MonoBehaviour
 				tutorialText.text = tutorialTextString;
 				uiMan.GetComponent<ScoreTracking>().requiredScore = scoreRequirement;
 				nextLevel.level = level;
+				break;
+			case GameState.Credits:
+				break;
+			case GameState.Exit:
+				Application.Quit();
 				break;
 		}
 	}
