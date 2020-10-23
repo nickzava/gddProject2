@@ -37,14 +37,29 @@ public class NextLevel : MonoBehaviour
 	public void nextLevelPress()
 	{
 		//setting up next level button
-		string levelString = "Level" + (level + 1);
+		string levelString;
+		if (level != maxLevel)
+		{
+			levelString = "Level" + (level + 1);
+		}
+		else
+		{
+			levelString = "Level" + maxLevel;
+		}
 		levelSelect.SetActive(true);
 		GameStates nextLevelValues = GameObject.Find(levelString).GetComponent<GameStates>();
 		levelSelect.SetActive(false);
 		GetComponent<Button>().interactable = false;
 
 		TileManager.Instance.ClearTiles();
-		nodeManager.GenerateLevel(nextLevelValues.seed, nextLevelValues.width, nextLevelValues.height, nextLevelValues.secondFluid, nextLevelValues.noRotation);
+		if (level != maxLevel)
+		{
+			nodeManager.GenerateLevel(nextLevelValues.seed, nextLevelValues.width, nextLevelValues.height, nextLevelValues.secondFluid, nextLevelValues.noRotation);
+		}
+		else
+		{
+			nodeManager.GenerateLevel((int)Random.Range(0, int.MaxValue - 1) , nextLevelValues.width, nextLevelValues.height, nextLevelValues.secondFluid, nextLevelValues.noRotation);
+		}
 		tutorialText.text = nextLevelValues.tutorialTextString;
 		level = nextLevelValues.level;
 		table.DrawTable(nextLevelValues.width, nextLevelValues.height);
@@ -53,23 +68,21 @@ public class NextLevel : MonoBehaviour
 
 		uiMan.GetComponent<ScoreTracking>().requiredScore = nextLevelValues.scoreRequirement;
 
-		//if (level == maxLevel)
-		//{
-		//	GetComponent<Button>().interactable = false;
-		//}
 	}
 
 	//called on athame button press to unlock next level
 	public void UnlockNextLevel()
 	{
-		//getting next level and unlocking it
-		string levelString = "Level" + (level + 1);
-		levelSelect.SetActive(true);
-		GameObject.Find(levelString).GetComponent<GameStates>().SetChains(false);
-		levelSelect.SetActive(false);
-
+		if (level != maxLevel)
+		{
+			//getting next level and unlocking it
+			string levelString = "Level" + (level + 1);
+			levelSelect.SetActive(true);
+			GameObject.Find(levelString).GetComponent<GameStates>().SetChains(false);
+			levelSelect.SetActive(false);
+		}
+		
 		//enabling next level button
 		GetComponent<Button>().interactable = true;
-
 	}
 }
