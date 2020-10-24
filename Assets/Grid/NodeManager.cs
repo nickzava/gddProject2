@@ -254,6 +254,18 @@ public class NodeManager : MonoBehaviour
             }
         }
 
+        //if rotated node is now empty check to make sure no new connections should be added
+        if(toRotate.mPath == null)
+        {
+            foreach(PathNode pn in toRotate.connected)
+            {
+                if(pn.mPath != null)
+                {
+                    AddToChanged(pn.mPath.Remake());
+                }
+            }
+        }
+
         foreach (PathNode p in changedNodes)
         {
             p.FinalizeState();
