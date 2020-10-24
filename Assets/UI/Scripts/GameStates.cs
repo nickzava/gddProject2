@@ -10,7 +10,8 @@ public class GameStates : MonoBehaviour
 
 	GameObject mainMenu;    //holds main menu UI buttons
 	GameObject levelSelect; //holds level select UI buttons
-	GameObject inLevel;		//holds in level UI buttons
+	GameObject inLevel;     //holds in level UI buttons
+	GameObject credits;     //credits screen
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
 	GameObject uiMan;
@@ -35,7 +36,8 @@ public class GameStates : MonoBehaviour
 	{
 		mainMenu = GameObject.Find("MainMenu");										//main menu UI container
 		levelSelect = GameObject.Find("LevelSelect");                               //level select UI container
-		inLevel = GameObject.Find("InLevel");										//in level UI container
+		inLevel = GameObject.Find("InLevel");                                       //in level UI container
+		credits = GameObject.Find("Credits");
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
 		uiMan = GameObject.Find("uiMan");
@@ -81,6 +83,7 @@ public class GameStates : MonoBehaviour
 				mainMenu.SetActive(true);
 				levelSelect.SetActive(false);
 				inLevel.SetActive(false);
+				credits.SetActive(false);
 				table.DisabeTable();
 				break;
 			case GameState.LevelSelect:
@@ -103,6 +106,8 @@ public class GameStates : MonoBehaviour
 				nextLevel.level = level;
 				break;
 			case GameState.Credits:
+				mainMenu.SetActive(false);
+				credits.SetActive(true);
 				break;
 			case GameState.Exit:
 				Application.Quit();
