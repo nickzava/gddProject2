@@ -68,6 +68,7 @@ public class TileManager : MonoBehaviour
 				}
 			}
 		}
+        GameObject.FindObjectOfType<AthameManager>().ClearPath();
 	}
     
     //used to get the tile that corresponds to the back end node

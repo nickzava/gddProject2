@@ -99,10 +99,10 @@ public class AthameManager : MonoBehaviour
                     daggerObj.GetComponent<SpriteRenderer>().enabled = false;
                     shadowObj.GetComponent<SpriteRenderer>().enabled = false;
                 }
-                else if(longestPath != null) //If at start of path
+                else //If at start of path
                 {
                     daggerIsMoving = true;
-                    SetDaggerDelta(longestPath.ElementAt(1));
+                    currentCount = -1;
                 }
                 if (!isRaised)
                 {
@@ -123,19 +123,13 @@ public class AthameManager : MonoBehaviour
             deltaMult += deltaMultAcceleration * Time.deltaTime;
 
             MoveDagger();
-            
-            if(longestPath == null)
-            {
-                daggerIsMoving = false;
-                return;
-            }
 
             Vector3 toTarget = targetPosition - daggerTransform.position;
             int sign = (int)(Mathf.Sign(toTarget.x) * Mathf.Sign(toTarget.y));
             if (sign != signOfVector)
             {
                 daggerTransform.position = targetPosition;
-                if (currentCount < longestPath.Count - 1)
+                if (longestPath != null && currentCount < longestPath.Count - 1)
                 {
                     currentCount++;
                     SetDaggerDelta(longestPath.ElementAt(currentCount));
@@ -173,17 +167,19 @@ public class AthameManager : MonoBehaviour
 
         //get longest path
         longestPath = null;
-        foreach(Path p in NodeManager.Instance.paths)
+        foreach (Path p in NodeManager.Instance.paths)
         {
             var pathToCheck = p.GetLongestSequenceInPath();
             if (longestPath == null || pathToCheck.Count > longestPath.Count)
                 longestPath = pathToCheck;
         }
-        if (longestPath.ElementAt(0) != null)
+        if (longestPath == null)
         {
-            daggerObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(longestPath.ElementAt(0)).GetComponent<Transform>().position + new Vector3(0, 2, -1);
-            shadowObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(longestPath.ElementAt(0)).GetComponent<Transform>().position + new Vector3(-2, 0, -1);
+            Debug.LogError("Got Null path from node manager!");
         }
+        daggerObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(longestPath.ElementAt(0)).GetComponent<Transform>().position + new Vector3(0, 2, -1);
+        shadowObj.GetComponent<Transform>().position = TileManager.Instance.GetTileFromNode(longestPath.ElementAt(0)).GetComponent<Transform>().position + new Vector3(-2, 0, -1);
+
     }
 
     void SetDaggerDelta(PathNode target)
@@ -236,6 +232,12 @@ public class AthameManager : MonoBehaviour
     {
         daggerTransform.position = new Vector3(daggerTransform.position.x + deltaX, daggerTransform.position.y + deltaY, daggerTransform.position.z);
         shadowTransform.position = new Vector3(shadowTransform.position.x + deltaX, shadowTransform.position.y + deltaY, shadowTransform.position.z);
+    }
+
+    public void ClearPath()
+    {
+        longestPath = null;
+        daggerIsMoving = false;
     }
 }
 
