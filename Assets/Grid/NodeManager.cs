@@ -138,6 +138,7 @@ public class NodeManager : MonoBehaviour
     //initalizes paths
     void PathInit(bool secondFluid = true)
     {
+        paths = new List<Path>();
         AddPath(1,GetNode(0, 0));
         if (secondFluid)
         {
