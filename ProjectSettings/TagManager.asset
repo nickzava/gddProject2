@@ -47,6 +47,9 @@ TagManager:
   - name: Fluid
     uniqueID: 4264918765
     locked: 0
+  - name: Chain
+    uniqueID: 4457749
+    locked: 0
   - name: Particles
     uniqueID: 650206527
     locked: 0

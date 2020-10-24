@@ -45,6 +45,7 @@ public class TileManager : MonoBehaviour
 		else    //if noRot is true, then a noRotPrefab is instantiated
         {
             newTile = newGo.AddComponent<NoRotTile>();
+            newGo.transform.Find("Chains").GetComponent<SpriteRenderer>().enabled = true;
         }
         newTile.Init(x, y, type);
 
@@ -68,6 +69,7 @@ public class TileManager : MonoBehaviour
 				}
 			}
 		}
+        GameObject.FindObjectOfType<AthameManager>().ClearPath();
 	}
     
     //used to get the tile that corresponds to the back end node

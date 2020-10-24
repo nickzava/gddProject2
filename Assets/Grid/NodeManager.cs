@@ -138,6 +138,7 @@ public class NodeManager : MonoBehaviour
     //initalizes paths
     void PathInit(bool secondFluid = true)
     {
+        paths = new List<Path>();
         AddPath(1,GetNode(0, 0));
         if (secondFluid)
         {
@@ -250,6 +251,18 @@ public class NodeManager : MonoBehaviour
             foreach (Path remove in toRemove)
             {
                 RemovePath(remove);
+            }
+        }
+
+        //if rotated node is now empty check to make sure no new connections should be added
+        if(toRotate.mPath == null)
+        {
+            foreach(PathNode pn in toRotate.connected)
+            {
+                if(pn.mPath != null)
+                {
+                    AddToChanged(pn.mPath.Remake());
+                }
             }
         }
 
