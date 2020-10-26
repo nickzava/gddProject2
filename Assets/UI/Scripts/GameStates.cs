@@ -62,6 +62,7 @@ public class GameStates : MonoBehaviour
 		{
 			levelSelect.SetActive(false);
 			inLevel.SetActive(false);
+			credits.SetActive(false);
 			table.DisabeTable();
 			return;
 		}
@@ -103,7 +104,7 @@ public class GameStates : MonoBehaviour
 				table.DrawTable(width, height);
 				tutorialText.text = tutorialTextString;
 				uiMan.GetComponent<ScoreTracking>().requiredScore = scoreRequirement;
-				nextLevel.level = level;
+				//nextLevel.level = level;
 				break;
 			case GameState.Credits:
 				mainMenu.SetActive(false);
