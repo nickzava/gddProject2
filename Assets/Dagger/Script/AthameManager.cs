@@ -86,8 +86,6 @@ public class AthameManager : MonoBehaviour
             {
                 RaiseDagger();
                 touchingBoard = false;
-
-                daggerObj.GetComponent<SpriteRenderer>().sprite = rightDagger;
             }
             else
             {
@@ -107,6 +105,7 @@ public class AthameManager : MonoBehaviour
                 {
                     daggerIsMoving = true;
                     SetDaggerDelta(longestPath.ElementAt(currentCount));
+                    Debug.Log(daggerObj.GetComponent<Transform>().position);
                 }
                 if (!isRaised)
                 {
@@ -123,6 +122,7 @@ public class AthameManager : MonoBehaviour
 
         if(touchingBoard != previousTouchingBoard && touchingBoard)
         {
+            Debug.Log("touching");
             cameraShake.ShakeScreen(.25f, 10, .2f);
         }
 
@@ -134,6 +134,7 @@ public class AthameManager : MonoBehaviour
 
             Vector3 toTarget = targetPosition - daggerTransform.position;
             int sign = (int)(Mathf.Sign(toTarget.x) * Mathf.Sign(toTarget.y));
+            Debug.Log((int)(Mathf.Sign(toTarget.x) * Mathf.Sign(toTarget.y)));
             if (sign != signOfVector)
             {
                 daggerTransform.position = targetPosition;
@@ -149,6 +150,7 @@ public class AthameManager : MonoBehaviour
                     isRaised = true;
                 }
             }
+            Debug.Log(daggerObj.GetComponent<Transform>().position);
             MoveDagger();
         }
 
@@ -172,6 +174,8 @@ public class AthameManager : MonoBehaviour
 
     public void StartDaggerMovement()
     {
+        Debug.Log("start dagger move");
+        //daggerIsMoving = true;
         isRaised = false;
         finishedDaggerBoard = false;
         daggerObj.GetComponent<SpriteRenderer>().enabled = true;
@@ -214,6 +218,7 @@ public class AthameManager : MonoBehaviour
 
         deltaY = deltaMult * (targetPosition.y - daggerObj.GetComponent<Transform>().position.y) / 500;
         deltaX = deltaMult * (targetPosition.x - daggerObj.GetComponent<Transform>().position.x) / 500;
+        Debug.Log("Delta Y: " + deltaY + " Delta X: " + deltaX);
 
         float deltaCotan = Convert.ToSingle(Math.Atan2(deltaY, deltaX)/Math.PI);
         if (deltaCotan <= -.25f && deltaCotan > -.75f) //Down
@@ -231,6 +236,10 @@ public class AthameManager : MonoBehaviour
         if(deltaCotan <= -.75f || deltaCotan > .75f) //Left
         {
             daggerObj.GetComponent<SpriteRenderer>().sprite = leftDagger;
+        }
+        if(daggerIsMoving == false)
+        {
+            daggerObj.GetComponent<SpriteRenderer>().sprite = rightDagger;
         }
     }
 
