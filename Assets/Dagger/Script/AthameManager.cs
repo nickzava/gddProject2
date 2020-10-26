@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class AthameManager : MonoBehaviour
 {
+    //Dagger touch @line 116
+    //Dagger leaves @line 90
     //Scale up dagger to make it look like it's futher from table
     private float daggerScale = 1;
     //Theoretical height from board, only adjust Y in game
@@ -56,8 +58,6 @@ public class AthameManager : MonoBehaviour
     private int signOfVector;
     private int currentCount = 1;
 
-    private Transform emitter;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -88,7 +88,7 @@ public class AthameManager : MonoBehaviour
             {
                 RaiseDagger();
                 touchingBoard = false;
-                emitter.gameObject.SetActive(false);
+                //Moment athame leaves board
                 daggerObj.GetComponent<SpriteRenderer>().sprite = rightDagger;
             }
             else
@@ -114,14 +114,13 @@ public class AthameManager : MonoBehaviour
                 }
                 if (!isRaised)
                 {
+                    //Moment dagger touches board
                     touchingBoard = true;
-                    emitter.gameObject.SetActive(true);
                     Debug.Log("on board");
                 }
                 else
                 {
                     touchingBoard = false;
-                    emitter.gameObject.SetActive(false);
                     Debug.Log("off board");
                 }
             }
