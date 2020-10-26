@@ -5,34 +5,10 @@ using UnityEngine.Rendering;
 
 
 
-//visual representation of a PathNode
+//No rotation tile -> no rotation on click
 public class NoRotTile : Tile
 {
     private static Sprite[] noRotImages;
-
-    // No rotate tile -> no functionality on click
-    void OnClick(bool isLeftClick)
-    {
-        if (!isRotating)
-        {
-            StartCoroutine(NoRotFeedback(isLeftClick, .05f));
-        }
-    }
-
-    // Still has input in case we want visual feedback for the no rotate tile
-    private void OnMouseOver()
-    {
-        //Left Click
-        if (Input.GetMouseButtonDown(0))
-        {
-            OnClick(true);
-        }
-        //Right Click
-        if (Input.GetMouseButtonDown(1))
-        {
-            OnClick(false);
-        }
-    }
 
     protected override void Awake()
     {
@@ -56,30 +32,4 @@ public class NoRotTile : Tile
     //	spriteRenderer.color = new Color(132, 132, 255, 255);
     //}
 
-    // Gives user a bit of feedback for clicking on a no rotate tile by tilting it slightly
-    public IEnumerator NoRotFeedback(bool isClockwise, float seconds, bool returning = false, int angle = 10)
-    {
-        isRotating = true;
-
-        float secondsElapsed = 0;
-        Quaternion initalRotation = transform.rotation;
-        Quaternion rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, 0, angle * (isClockwise ? 1 : -1)));
-
-        while (secondsElapsed < seconds)
-        {
-            secondsElapsed += Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(initalRotation, rotation, secondsElapsed / seconds);
-            yield return null;
-        }
-
-        //ensure that the deired rotation is exactly reached
-        transform.rotation = rotation;
-
-        if(!returning)
-        {
-            StartCoroutine(NoRotFeedback(!isClockwise, seconds, true, angle - (angle * 2)));
-        }
-
-        yield break;
-    }
 }
