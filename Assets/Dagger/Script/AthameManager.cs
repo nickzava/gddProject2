@@ -7,8 +7,7 @@ using UnityEngine;
 
 public class AthameManager : MonoBehaviour
 {
-    //Dagger touch @line 116
-    //Dagger leaves @line 90
+    //If statement with dagger touching board & leaving board @line 128
     //Scale up dagger to make it look like it's futher from table
     private float daggerScale = 1;
     //Theoretical height from board, only adjust Y in game
@@ -116,21 +115,23 @@ public class AthameManager : MonoBehaviour
                 {
                     //Moment dagger touches board
                     touchingBoard = true;
-                    Debug.Log("on board");
                 }
                 else
                 {
                     touchingBoard = false;
-                    Debug.Log("off board");
                 }
             }
         }
 
         previousIsRaised = isRaised;
 
-        if(touchingBoard != previousTouchingBoard && touchingBoard)
-        {
+        //moment touches board
+        if (touchingBoard != previousTouchingBoard && touchingBoard) {
             cameraShake.ShakeScreen(.25f, 10, .2f);
+
+        } 
+        else if (touchingBoard != previousTouchingBoard && !touchingBoard) { //Moment leaves board
+
         }
 
         //Check if dagger should move
