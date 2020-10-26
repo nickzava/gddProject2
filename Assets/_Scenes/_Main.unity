@@ -1353,8 +1353,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 131, y: -285}
-  m_SizeDelta: {x: 993.9917, y: 1347.5989}
+  m_AnchoredPosition: {x: 131, y: -303.5}
+  m_SizeDelta: {x: 993.9917, y: 1457.8552}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &176522885
 MonoBehaviour:
@@ -4125,7 +4125,7 @@ PrefabInstance:
     - target: {fileID: 6602041280994465852, guid: c588fbba263a8a540a71c35785c65bcd,
         type: 3}
       propertyPath: m_Text
-      value: Level 7
+      value: Free Play
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c588fbba263a8a540a71c35785c65bcd, type: 3}
@@ -5754,8 +5754,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 131, y: -285}
-  m_SizeDelta: {x: 993.9917, y: 1347.5989}
+  m_AnchoredPosition: {x: 131, y: -303.5}
+  m_SizeDelta: {x: 993.9917, y: 1457.8552}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1483839513
 MonoBehaviour:
