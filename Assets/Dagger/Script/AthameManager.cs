@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 using UnityEngine;
 
 public class AthameManager : MonoBehaviour
@@ -11,7 +12,7 @@ public class AthameManager : MonoBehaviour
     //Theoretical height from board, only adjust Y in game
     private float daggerHeight = 0;
 
-    public bool isRaised = true;
+    private bool isRaised = true;
     private bool previousIsRaised = true;
     private bool changeDaggerHeight = false;
     private bool finishedDaggerBoard = false;
@@ -27,12 +28,13 @@ public class AthameManager : MonoBehaviour
 
     public GameObject dagger;
     private GameObject daggerObj;
-    private ScreenShake cameraShake;
     private Transform daggerTransform;
 
     public GameObject shadow;
     private GameObject shadowObj;
     private Transform shadowTransform;
+
+    private ScreenShake cameraShake;
 
     public Sprite leftDagger;
     public Sprite rightDagger;
@@ -48,8 +50,8 @@ public class AthameManager : MonoBehaviour
     private float deltaMult;
     private float deltaMultAcceleration = 1;
 
-    private float deltaX;
-    private float deltaY;
+    private float deltaX = 0;
+    private float deltaY = 0;
     private Vector3 targetPosition = new Vector3(0, 0, 0);
     private int signOfVector;
     private int currentCount = 1;
@@ -57,8 +59,8 @@ public class AthameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        daggerObj = Instantiate(dagger, new Vector3(0, 0, -1), Quaternion.identity);
-        shadowObj = Instantiate(shadow, new Vector3(0, 0, -1), Quaternion.identity);
+        daggerObj = Instantiate(dagger, new Vector3(-1, 0, -1), Quaternion.identity);
+        shadowObj = Instantiate(shadow, new Vector3(-1, 0, -1), Quaternion.identity);
         daggerTransform = daggerObj.GetComponent<Transform>().transform;
         shadowTransform = shadowObj.GetComponent<Transform>().transform;
         shadowTransform.Rotate(0, 0, 90);
@@ -71,12 +73,11 @@ public class AthameManager : MonoBehaviour
     void Update()
     {
         //Check if isRaised is changed
-        if(isRaised != previousIsRaised)
+        if (isRaised != previousIsRaised)
         {
             changeDaggerHeight = true;
             daggerHeight = daggerTransform.position.y;
         }
-
         //Raise/Lower dagger when changeDaggerHeight = true
         //Runs if isRaised is changed
         if (changeDaggerHeight == true)
@@ -84,6 +85,7 @@ public class AthameManager : MonoBehaviour
             if (isRaised)
             {
                 RaiseDagger();
+                touchingBoard = false;
             }
             else
             {
@@ -102,19 +104,25 @@ public class AthameManager : MonoBehaviour
                 else //If at start of path
                 {
                     daggerIsMoving = true;
-                    currentCount = -1;
+                    SetDaggerDelta(longestPath.ElementAt(currentCount));
+                    Debug.Log(daggerObj.GetComponent<Transform>().position);
                 }
                 if (!isRaised)
                 {
                     touchingBoard = true;
+                }
+                else
+                {
+                    touchingBoard = false;
                 }
             }
         }
 
         previousIsRaised = isRaised;
 
-        if(false/*touchingBoard != previousTouchingBoard && touchingBoard*/)
+        if(touchingBoard != previousTouchingBoard && touchingBoard)
         {
+            Debug.Log("touching");
             cameraShake.ShakeScreen(.25f, 10, .2f);
         }
 
@@ -122,10 +130,11 @@ public class AthameManager : MonoBehaviour
         if (daggerIsMoving == true) {
             deltaMult += deltaMultAcceleration * Time.deltaTime;
 
-            MoveDagger();
+            
 
             Vector3 toTarget = targetPosition - daggerTransform.position;
             int sign = (int)(Mathf.Sign(toTarget.x) * Mathf.Sign(toTarget.y));
+            Debug.Log((int)(Mathf.Sign(toTarget.x) * Mathf.Sign(toTarget.y)));
             if (sign != signOfVector)
             {
                 daggerTransform.position = targetPosition;
@@ -138,13 +147,19 @@ public class AthameManager : MonoBehaviour
                 {
                     daggerIsMoving = false;
                     finishedDaggerBoard = true;
-                    isRaised = !isRaised;
+                    isRaised = true;
                 }
             }
+            Debug.Log(daggerObj.GetComponent<Transform>().position);
+            MoveDagger();
         }
 
-		//athame dragging sound
-		if (daggerIsMoving && !soundIsPlaying)	//starts if dagger moving and sound not started yet
+        daggerTransform = daggerObj.GetComponent<Transform>().transform;
+        shadowTransform = shadowObj.GetComponent<Transform>().transform;
+        previousTouchingBoard = touchingBoard;
+
+        //athame dragging sound
+        if (daggerIsMoving && !soundIsPlaying)	//starts if dagger moving and sound not started yet
 		{
 			GetComponent<AudioSource>().Play();
 			soundIsPlaying = true;
@@ -159,11 +174,14 @@ public class AthameManager : MonoBehaviour
 
     public void StartDaggerMovement()
     {
+        Debug.Log("start dagger move");
         //daggerIsMoving = true;
         isRaised = false;
+        finishedDaggerBoard = false;
         daggerObj.GetComponent<SpriteRenderer>().enabled = true;
         shadowObj.GetComponent<SpriteRenderer>().enabled = true;
         deltaMult = 1;
+        currentCount = 1;
 
         //get longest path
         longestPath = null;
@@ -182,6 +200,16 @@ public class AthameManager : MonoBehaviour
 
     }
 
+    public void CancelDaggerMovement()
+    {
+        daggerObj.GetComponent<SpriteRenderer>().enabled = false;
+        shadowObj.GetComponent<SpriteRenderer>().enabled = false;
+        deltaX = 0;
+        deltaY = 0;
+        daggerIsMoving = false;
+        changeDaggerHeight = false;
+    }
+
     void SetDaggerDelta(PathNode target)
     {
         targetPosition = TileManager.Instance.GetTileFromNode(target).GetComponent<Transform>().position;
@@ -190,6 +218,8 @@ public class AthameManager : MonoBehaviour
 
         deltaY = deltaMult * (targetPosition.y - daggerObj.GetComponent<Transform>().position.y) / 500;
         deltaX = deltaMult * (targetPosition.x - daggerObj.GetComponent<Transform>().position.x) / 500;
+        Debug.Log("Delta Y: " + deltaY + " Delta X: " + deltaX);
+
         float deltaCotan = Convert.ToSingle(Math.Atan2(deltaY, deltaX)/Math.PI);
         if (deltaCotan <= -.25f && deltaCotan > -.75f) //Down
         {
@@ -206,6 +236,10 @@ public class AthameManager : MonoBehaviour
         if(deltaCotan <= -.75f || deltaCotan > .75f) //Left
         {
             daggerObj.GetComponent<SpriteRenderer>().sprite = leftDagger;
+        }
+        if(daggerIsMoving == false)
+        {
+            daggerObj.GetComponent<SpriteRenderer>().sprite = rightDagger;
         }
     }
 
@@ -232,6 +266,7 @@ public class AthameManager : MonoBehaviour
     {
         daggerTransform.position = new Vector3(daggerTransform.position.x + deltaX, daggerTransform.position.y + deltaY, daggerTransform.position.z);
         shadowTransform.position = new Vector3(shadowTransform.position.x + deltaX, shadowTransform.position.y + deltaY, shadowTransform.position.z);
+        //Debug.Log(deltaX + ", " + deltaY + " + " + deltaMult);
     }
 
     public void ClearPath()
