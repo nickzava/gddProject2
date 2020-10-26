@@ -43,6 +43,13 @@ public class ScoreTracking : MonoBehaviour
     /// </summary>
     public void onGUI(bool updateScore)
     {
+        totalScoreLabel.text = "Total Score:";
+        levelScoreLabel.text = "Level Score:";
+		if (updateScore)
+		{
+			UpdateCurrentScore(nodeManager.paths, false);
+		}
+
         //check(level score / required score) to get easy to understand numbers that work on any level
         if (requiredScore != 0)
         {
@@ -51,32 +58,34 @@ public class ScoreTracking : MonoBehaviour
             {
                 //Insufficient
                 //Debug.Log("insufficient score");
+                totalScoreLabel.text = "Insufficient";
             }
-            else if (levelScore / requiredScore < 1.3)
+            else if (levelScore / requiredScore < 1.2)
             {
                 //bare minimum pass
                 //Debug.Log("bare minimum score");
+                totalScoreLabel.text = "Decent";
             }
-            else if (levelScore / requiredScore < 1.6)
+            else if (levelScore / requiredScore < 1.4)
             {
                 //better
                 //Debug.Log("Above and beyond score");
+                totalScoreLabel.text = "Marvelous";
             }
             else
             {
                 //Best+
                 //Debug.Log("Extremely high score");
+                totalScoreLabel.text = "Beyond Perfect!";
             }
         }
+        if(levelScore == 0)
+        {
+            totalScoreLabel.text = "Engraving";
+        }
 
-        totalScoreLabel.text = "Total Score:";
-        levelScoreLabel.text = "Level Score:";
-		if (updateScore)
-		{
-			UpdateCurrentScore(nodeManager.paths, false);
-		}
-
-        totalScoreValue.text = requiredScore.ToString();
+        //totalScoreValue.text = requiredScore.ToString();
+        totalScoreValue.text = "";
         levelScoreValue.text = levelScore.ToString();
 
         LevelProgressBar.Percentage = Mathf.Min((float)levelScore / requiredScore, 1);

@@ -580,8 +580,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: Play
+      - m_Target: {fileID: 1497908923}
+        m_MethodName: CancelDaggerMovement
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -925,6 +925,7 @@ GameObject:
   - component: {fileID: 124623929}
   - component: {fileID: 124623932}
   - component: {fileID: 124623933}
+  - component: {fileID: 124623934}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1124,6 +1125,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &124623934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124623928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7dc8b377d5dbdd45be85ff9d94c65f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &133397240
 GameObject:
   m_ObjectHideFlags: 0
@@ -5736,7 +5749,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe925be0f6f4054abfc3cde90f7c1f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRaised: 0
   dagger: {fileID: 7793154712112181184, guid: 4b46398a2d19faf469c645a51da82575, type: 3}
   shadow: {fileID: 2074472891851003466, guid: fbe14faaaa8b3044bb6e0c1961fda676, type: 3}
   leftDagger: {fileID: 21300000, guid: e133662bd579df14abcff9705325af09, type: 3}
