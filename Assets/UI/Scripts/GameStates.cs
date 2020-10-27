@@ -15,7 +15,7 @@ public class GameStates : MonoBehaviour
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
 	GameObject uiMan;
-	NextLevel nextLevel;
+	GameObject nextLevel;
 	AudioSource soundEffect;
 	TableDraw table;
 	Image chain1;
@@ -40,6 +40,7 @@ public class GameStates : MonoBehaviour
 		credits = GameObject.Find("Credits");
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
+		nextLevel = GameObject.Find("NextLevel");
 		uiMan = GameObject.Find("uiMan");
 		table = GameObject.Find("TableIMG").GetComponent<TableDraw>();
 		//set chain values
@@ -66,6 +67,7 @@ public class GameStates : MonoBehaviour
 			table.DisabeTable();
 			return;
 		}
+			
 		SetChains(locked);
 	}
 
@@ -104,7 +106,10 @@ public class GameStates : MonoBehaviour
 				table.DrawTable(width, height);
 				tutorialText.text = tutorialTextString;
 				uiMan.GetComponent<ScoreTracking>().requiredScore = scoreRequirement;
-				//nextLevel.level = level;
+				if (level == 1)
+				{
+					nextLevel.GetComponent<Button>().interactable = false;
+				}
 				break;
 			case GameState.Credits:
 				mainMenu.SetActive(false);
@@ -119,7 +124,6 @@ public class GameStates : MonoBehaviour
 	public void PlaySound()
 	{
 		soundEffect.Play();
-		Debug.Log("sound effect played");
 	}
 
 	public void SetChains(bool visable)

@@ -25,11 +25,24 @@ public class NoRotTile : Tile
         baseRenderer.sprite = GetSprite(type, noRotImages);
     }
 
-    //changes color of noRot tiles (commented out because it's hard to see the tint)
-    //public override void SetPower(int power)
-    //{
-    //	base.SetPower(power);
-    //	spriteRenderer.color = new Color(132, 132, 255, 255);
-    //}
+	public void OnClick()
+	{
+		GetComponent<AudioSource>().clip = GetComponent<SoundHolder>().chainSound;
+		GetComponent<AudioSource>().Play();
+		//PlayOneShot(GetComponent<SoundHolder>().chainSound, 1.0f);
+	}
 
+	private void OnMouseOver()
+	{
+		//Left Click
+		if (Input.GetMouseButtonDown(0))
+		{
+			OnClick();
+		}
+		//Right Click
+		if (Input.GetMouseButtonDown(1))
+		{
+			OnClick();
+		}
+	}
 }

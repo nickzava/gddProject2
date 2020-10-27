@@ -81,7 +81,7 @@ public class NextLevel : MonoBehaviour
 			GameObject.Find(levelString).GetComponent<GameStates>().SetChains(false);
 			levelSelect.SetActive(false);
 		}
-		
+
 		//enabling next level button
 		GetComponent<Button>().interactable = true;
 	}
