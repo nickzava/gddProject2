@@ -148,15 +148,15 @@ RectTransform:
   m_GameObject: {fileID: 7848237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.39423004, y: 0.39423004, z: 1.3141}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1.3141}
   m_Children: []
   m_Father: {fileID: 692390096}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 736, y: 135.6}
-  m_SizeDelta: {x: 118.964264, y: 19.644642}
+  m_AnchoredPosition: {x: 750, y: 220}
+  m_SizeDelta: {x: 432.27594, y: 26.555832}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7848239
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 63da36851569bac468ec9dfb9afcfd83, type: 3}
-    m_FontSize: 150
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -187,7 +187,7 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: New Text
@@ -353,6 +353,7 @@ MonoBehaviour:
   width: 0
   height: 0
   tutorialTextString: 
+  flavorTextString: 
   level: 0
   scoreRequirement: 0
   locked: 0
@@ -499,7 +500,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -144, y: 54.6}
+  m_AnchoredPosition: {x: -223, y: 59}
   m_SizeDelta: {x: 209.0428, y: 57.83418}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &15719910
@@ -532,6 +533,7 @@ MonoBehaviour:
   width: 0
   height: 0
   tutorialTextString: 
+  flavorTextString: 
   level: 0
   scoreRequirement: 0
   locked: 0
@@ -746,84 +748,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &53416758
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 53416759}
-  - component: {fileID: 53416761}
-  - component: {fileID: 53416760}
-  m_Layer: 5
-  m_Name: LevelScoreLabel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &53416759
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53416758}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.39423004, y: 0.39423004, z: 1.3141}
-  m_Children: []
-  m_Father: {fileID: 692390096}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 660.3, y: 200.6}
-  m_SizeDelta: {x: 118.964264, y: 19.644642}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &53416760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53416758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 63da36851569bac468ec9dfb9afcfd83, type: 3}
-    m_FontSize: 150
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 1
-    m_MaxSize: 150
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
-    m_LineSpacing: 1
-  m_Text: New Text
---- !u!222 &53416761
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53416758}
-  m_CullTransparentMesh: 0
 --- !u!1 &99203067
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,8 +1683,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 730.9999, y: 166.50008}
-  m_SizeDelta: {x: 579.38464, y: 411.4673}
+  m_AnchoredPosition: {x: 730.9999, y: 141.3}
+  m_SizeDelta: {x: 579.38464, y: 449.89026}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &277022986
 MonoBehaviour:
@@ -1953,6 +1877,7 @@ MonoBehaviour:
   width: 0
   height: 0
   tutorialTextString: 
+  flavorTextString: 
   level: 0
   scoreRequirement: 0
   locked: 0
@@ -2520,6 +2445,11 @@ PrefabInstance:
       propertyPath: locked
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6602041280980726287, guid: c588fbba263a8a540a71c35785c65bcd,
+        type: 3}
+      propertyPath: flavorTextString
+      value: Try and replicate this one, it will be your first Order 2 spell -Fendel
+      objectReference: {fileID: 0}
     - target: {fileID: 6602041280994465852, guid: c588fbba263a8a540a71c35785c65bcd,
         type: 3}
       propertyPath: m_Text
@@ -2936,6 +2866,7 @@ MonoBehaviour:
   width: 0
   height: 0
   tutorialTextString: 
+  flavorTextString: 
   level: 0
   scoreRequirement: 0
   locked: 0
@@ -3136,10 +3067,9 @@ RectTransform:
   - {fileID: 277022985}
   - {fileID: 675496474}
   - {fileID: 973894060}
-  - {fileID: 53416759}
   - {fileID: 7848238}
-  - {fileID: 906290230}
   - {fileID: 1701982800}
+  - {fileID: 906290230}
   m_Father: {fileID: 1943853167}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3177,7 +3107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a27637c3a857f49b82384702b97e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelScoreLabel: {fileID: 53416760}
   totalScoreLabel: {fileID: 675496475}
   levelScoreValue: {fileID: 7848239}
   totalScoreValue: {fileID: 973894061}
@@ -3257,6 +3186,7 @@ MonoBehaviour:
   width: 0
   height: 0
   tutorialTextString: 
+  flavorTextString: 
   level: 0
   scoreRequirement: 0
   locked: 0
@@ -3851,6 +3781,12 @@ PrefabInstance:
       propertyPath: noRotation
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6602041280980726287, guid: c588fbba263a8a540a71c35785c65bcd,
+        type: 3}
+      propertyPath: flavorTextString
+      value: "This is the secret to how I\u2019ve lived this long, you must tell
+        no one. -Fendel "
+      objectReference: {fileID: 0}
     - target: {fileID: 6602041280994465852, guid: c588fbba263a8a540a71c35785c65bcd,
         type: 3}
       propertyPath: m_Text
@@ -4203,6 +4139,11 @@ PrefabInstance:
       propertyPath: noRotation
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6602041280980726287, guid: c588fbba263a8a540a71c35785c65bcd,
+        type: 3}
+      propertyPath: flavorTextString
+      value: The secret to my is apprentices like you...stuck forever in limbo -Fendel
+      objectReference: {fileID: 0}
     - target: {fileID: 6602041280994465852, guid: c588fbba263a8a540a71c35785c65bcd,
         type: 3}
       propertyPath: m_Text
@@ -4474,6 +4415,7 @@ MonoBehaviour:
   width: 0
   height: 0
   tutorialTextString: 
+  flavorTextString: 
   level: 0
   scoreRequirement: 0
   locked: 0
@@ -4835,6 +4777,12 @@ PrefabInstance:
         type: 3}
       propertyPath: secondFluid
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6602041280980726287, guid: c588fbba263a8a540a71c35785c65bcd,
+        type: 3}
+      propertyPath: flavorTextString
+      value: "This shouldn\u2019t be too hard, I did this when I was your age         
+        -Fendel"
       objectReference: {fileID: 0}
     - target: {fileID: 6602041280994465852, guid: c588fbba263a8a540a71c35785c65bcd,
         type: 3}
@@ -5221,6 +5169,11 @@ PrefabInstance:
       propertyPath: locked
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6602041280980726287, guid: c588fbba263a8a540a71c35785c65bcd,
+        type: 3}
+      propertyPath: flavorTextString
+      value: Good job handling that last one, try another Order 2 -Fendel
+      objectReference: {fileID: 0}
     - target: {fileID: 6602041280994465852, guid: c588fbba263a8a540a71c35785c65bcd,
         type: 3}
       propertyPath: m_Text
@@ -5511,6 +5464,11 @@ PrefabInstance:
         type: 3}
       propertyPath: secondFluid
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6602041280980726287, guid: c588fbba263a8a540a71c35785c65bcd,
+        type: 3}
+      propertyPath: flavorTextString
+      value: Can you figure out that old spell that I messed up on the sword? -Fendel
       objectReference: {fileID: 0}
     - target: {fileID: 6602041280994465852, guid: c588fbba263a8a540a71c35785c65bcd,
         type: 3}
@@ -6413,11 +6371,11 @@ RectTransform:
   m_Children:
   - {fileID: 1915558841}
   m_Father: {fileID: 692390096}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 735, y: -232}
+  m_AnchoredPosition: {x: 731, y: -282}
   m_SizeDelta: {x: 209.04279, y: 57.834183}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1701982801
@@ -6902,6 +6860,7 @@ MonoBehaviour:
   width: 0
   height: 0
   tutorialTextString: 
+  flavorTextString: 
   level: 0
   scoreRequirement: 0
   locked: 0
@@ -7175,12 +7134,12 @@ PrefabInstance:
     - target: {fileID: 1633476817841683501, guid: 56e6fe60e41f92247a469ba3688bf1a5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 665
+      value: 660.99994
       objectReference: {fileID: 0}
     - target: {fileID: 1633476817841683501, guid: 56e6fe60e41f92247a469ba3688bf1a5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -160
+      value: -210.00002
       objectReference: {fileID: 0}
     - target: {fileID: 1633476817841683501, guid: 56e6fe60e41f92247a469ba3688bf1a5,
         type: 3}
@@ -7553,6 +7512,11 @@ PrefabInstance:
         type: 3}
       propertyPath: noRotation
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6602041280980726287, guid: c588fbba263a8a540a71c35785c65bcd,
+        type: 3}
+      propertyPath: flavorTextString
+      value: See if you can replicate that spell I was doing earlier -Fendel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c588fbba263a8a540a71c35785c65bcd, type: 3}

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ScoreTracking : MonoBehaviour
 {
-    public Text levelScoreLabel;
+    
     public Text totalScoreLabel;
     public Text levelScoreValue;
     public Text totalScoreValue;
@@ -44,7 +44,7 @@ public class ScoreTracking : MonoBehaviour
     public void onGUI(bool updateScore)
     {
         totalScoreLabel.text = "Total Score:";
-        levelScoreLabel.text = "Level Score:";
+        
 		if (updateScore)
 		{
 			UpdateCurrentScore(nodeManager.paths, false);
@@ -86,7 +86,7 @@ public class ScoreTracking : MonoBehaviour
 
         //totalScoreValue.text = requiredScore.ToString();
         totalScoreValue.text = "";
-        levelScoreValue.text = levelScore.ToString();
+        //levelScoreValue.text = levelScore.ToString();
 
         LevelProgressBar.Percentage = Mathf.Min((float)levelScore / requiredScore, 1);
     }

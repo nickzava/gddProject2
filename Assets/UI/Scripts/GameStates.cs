@@ -14,6 +14,7 @@ public class GameStates : MonoBehaviour
 	GameObject credits;     //credits screen
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
+    Text flavorText;
 	GameObject uiMan;
 	GameObject nextLevel;
 	AudioSource soundEffect;
@@ -26,7 +27,8 @@ public class GameStates : MonoBehaviour
 	public int width;
 	public int height;
 	public string tutorialTextString;   //string to set tutorial text too
-	public int level;
+    public string flavorTextString;   //string to set tutorial text too
+    public int level;
 	public int scoreRequirement;
 	public bool locked;     //true if level is locked
 	public bool secondFluid;
@@ -40,9 +42,11 @@ public class GameStates : MonoBehaviour
 		credits = GameObject.Find("Credits");
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
-		nextLevel = GameObject.Find("NextLevel");
+        flavorText = GameObject.Find("LevelScore").GetComponent<Text>();
+        nextLevel = GameObject.Find("NextLevel");
 		uiMan = GameObject.Find("uiMan");
-		table = GameObject.Find("TableIMG").GetComponent<TableDraw>();
+       
+        table = GameObject.Find("TableIMG").GetComponent<TableDraw>();
 		//set chain values
 		var temp = transform.Find("LeftChain");
 		if (temp != null)
@@ -105,6 +109,7 @@ public class GameStates : MonoBehaviour
 				nodeManager.GenerateLevel(seed, width, height, secondFluid, noRotation);
 				table.DrawTable(width, height);
 				tutorialText.text = tutorialTextString;
+                flavorText.text = flavorTextString;
 				uiMan.GetComponent<ScoreTracking>().requiredScore = scoreRequirement;
 				if (level == 1)
 				{

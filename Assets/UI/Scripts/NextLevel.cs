@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class NextLevel : MonoBehaviour
 	GameObject levelSelect; //holds level select UI buttons
 	NodeManager nodeManager;
 	Text tutorialText;      //references Text object in scene
+    Text flavorText;
 	GameObject uiMan;
 	TableDraw table;
 
@@ -18,7 +20,8 @@ public class NextLevel : MonoBehaviour
 		levelSelect = GameObject.Find("LevelSelect");
 		nodeManager = GameObject.Find("nodeMan").GetComponent<NodeManager>();   //nodeManager for generating levels
 		tutorialText = GameObject.Find("TutorialTip").GetComponent<Text>();
-		uiMan = GameObject.Find("uiMan");
+        flavorText = GameObject.Find("LevelScore").GetComponent<Text>();
+        uiMan = GameObject.Find("uiMan");
 		table = GameObject.Find("TableIMG").GetComponent<TableDraw>();
 	}
 
@@ -61,6 +64,7 @@ public class NextLevel : MonoBehaviour
 			nodeManager.GenerateLevel((int)Random.Range(0, int.MaxValue - 1) , nextLevelValues.width, nextLevelValues.height, nextLevelValues.secondFluid, nextLevelValues.noRotation);
 		}
 		tutorialText.text = nextLevelValues.tutorialTextString;
+        flavorText.text = nextLevelValues.flavorTextString;
 		level = nextLevelValues.level;
 		table.DrawTable(nextLevelValues.width, nextLevelValues.height);
 
