@@ -58,19 +58,19 @@ public class ScoreTracking : MonoBehaviour
             {
                 //Insufficient
                 //Debug.Log("insufficient score");
-                totalScoreLabel.text = "Insufficient";
+                totalScoreLabel.text = "Spellpower: Insufficient";
             }
             else if (levelScore / requiredScore < 1.2)
             {
                 //bare minimum pass
                 //Debug.Log("bare minimum score");
-                totalScoreLabel.text = "Decent";
+                totalScoreLabel.text = "Spellpower: Decent";
             }
             else if (levelScore / requiredScore < 1.4)
             {
                 //better
                 //Debug.Log("Above and beyond score");
-                totalScoreLabel.text = "Marvelous";
+                totalScoreLabel.text = "Spellpower: Marvelous";
             }
             else
             {
