@@ -128,10 +128,10 @@ public class AthameManager : MonoBehaviour
         //moment touches board
         if (touchingBoard != previousTouchingBoard && touchingBoard) {
             cameraShake.ShakeScreen(.25f, 10, .2f);
-
+            daggerObj.transform.Find("RockChunkEmmiter").gameObject.SetActive(true);
         } 
         else if (touchingBoard != previousTouchingBoard && !touchingBoard) { //Moment leaves board
-
+            daggerObj.transform.Find("RockChunkEmmiter").gameObject.SetActive(false);
         }
 
         //Check if dagger should move
